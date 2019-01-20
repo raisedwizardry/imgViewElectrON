@@ -1,19 +1,25 @@
 /*code to initate the window */
 var gui = require('nw.gui');
 var win = gui.Window.get();
-win.disableCache([true])
 global.imgpath;
 
-//win.disableCache([true])
 //retrieve the image name and path from original opening give error if applicable
 var arg=gui.App.argv;
 var arglen=arg.length;
-if (arglen===1) {
+
+if (arglen === 1) {
 	global.imgpath=arg[0];
 }
-else if (arglen>1) {
+
+else if (arglen > 1) {
    	global.imgpath=arg[0];
    	alert("Error: One image at a time");
+}
+
+else if (arglen === 0) {
+	global.imgpath='../img/sizing.png'
+	alert("Error: No image to display");
+
 }
 else {
 	alert("Error: Could not access image");

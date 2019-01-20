@@ -1,9 +1,7 @@
 {
     "app_name": "imgViewON", 
     "nodejs": true, 
-    "additional_trust_anchors": "", 
-    "inject-js-end": "", 
-    "node-remote": "", 
+    "additional_trust_anchors": "",
     "keywords": [
         "image", 
         "picture"
@@ -30,7 +28,7 @@
         "mac_icon": "", 
         "transparent": true, 
         "toolbar": false, 
-        "icon": "imgViewr.png"
+        "icon": "./img/imgViewON.png"
     }, 
     "version": "0.5", 
     "inject-js-start": "", 

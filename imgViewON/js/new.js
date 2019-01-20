@@ -1,6 +1,6 @@
 var gui = require('nw.gui');
 var win = gui.Window.get();
-win.disableCache([true])
+
 gui.App.on('open', function (cmdline) {
 // Break out the params from the command line and Get the last match and split on spaces   	
    	global.imgpath = (function () { return; })();
