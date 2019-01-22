@@ -32,7 +32,7 @@
     }, 
     "version": "0.5", 
     "inject-js-start": "", 
-    "main": "index.html", 
+    "main": "js/main.js", 
     "chromium-args": "", 
     "webexe_settings": {
         "linux-x32": false, 
@@ -43,16 +43,16 @@
         "mac-x32": false, 
         "windows-x32": true, 
         "mac-x64": false, 
-        "nw_version": "0.12.3", 
+        "nw_version": "0.35.5", 
         "force_download": false, 
         "linux-x64": false
     }, 
     "description": "Simple image viewer", 
     "maintainers": [
         {
-            "web": "http://www.elilymandavis.com", 
-            "name": "Eli Davis", 
-            "email": "eli.lyman.davis@gmail.com"
+            "web": "http://www.github.com/raisedwizardry", 
+            "name": "raisedwizardry", 
+            "email": "lifebloodasmr@gmail.com"
         }
     ], 
     "webkit": {
@@ -61,9 +61,7 @@
         "plugin": false
     }, 
     "js-flags": "", 
-    "name": "imgViewON", 
-    "bugs": "mailto:eli.lyman.davis@gmail.com", 
-    "single-instance": false, 
+    "name": "imgViewON",   
     "snapshot": "", 
     "node-main": ""
 }

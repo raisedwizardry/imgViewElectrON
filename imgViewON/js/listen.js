@@ -1,3 +1,30 @@
+/*start of javascript code*/
+$(document).ready(function() {
+    var nw = require('nw.gui');
+    var win = nw.Window.get();
+    //var img = "D:\\Stuff\\Development\\nw.js\\imgViewr\\testimg\\IMG_1411.JPG"
+    //console.log(img);
+    var theimg;
+    
+    theimg=addimgsrc(global.imgFilePath);
+        
+    $(theimg).load(function() {
+        var ratio=firstimgresize(theimg);
+        $('#dadresize').prepend(theimg);
+        uisize(ratio);
+    });
+    
+    $('#dadresize').on('resize', function( event, ui ) {
+        window.resizeTo(ui.size.width, ui.size.height);  
+    });
+
+    $('#dadresize').mouseup(function(eve) {
+        if (eve.which === 3) {//right mouse
+            win.close(); 
+        }
+    });
+});
+
 /*define functions*/
 //find width or height given a length and give the the oposite based on the aspect ratio
 //aspect ratio is width divided by height
@@ -15,20 +42,12 @@ function missing(length, highwide, ratio) {
 function intgen(min,max) {
     return Math.floor(Math.random()*(max-min+1)+min);
 }
-//validate the source image and close properly if not an image file
-function valimgsrc(imgsrc) {
-    if ((/\.(gif|jpg|jpeg|jpe|jif|jfi|jfif|webp|bmp|svg|svgz|png)$/i).test(imgsrc)) {
-    }
-    else {
-        alert("Error: this file format not supported");
-        win.close();
-    }
-}
 //create an image and add the id and source to the new image
-function addimgsrc() {
+function addimgsrc(imgPath) {
+    console.log(imgPath);
     img= new Image();
     img.id="main";
-    img.src=global.imgpath;
+    img.src=imgPath;
     return img;
 }
 //initial sizing of image based on the screen size also moves and resizes window
@@ -154,25 +173,3 @@ function uisize(origimgratio) {
     });
 }
 
-/*start of javascript code*/
-$(document).ready(function() {
-    var theimg;
-    valimgsrc(global.imgpath);
-    theimg=addimgsrc();
-    
-    $(theimg).load(function() {
-        var ratio=firstimgresize(theimg);
-        $('#dadresize').prepend(theimg);
-        uisize(ratio);
-    });
-
-    $('#dadresize').on('resize', function( event, ui ) {
-            window.resizeTo(ui.size.width, ui.size.height);  
-    });
-
-    $('#dadresize').mouseup(function(eve) {
-        if (eve.which === 3) {//right mouse
-            win.close(); 
-        }
-    });
-});
