@@ -12,6 +12,7 @@ let args=nw.App.argv;
 nw.Window.open('../index.html', windowObject, function(win) {
 	FindFilePath(args);
 	//win.showDevTools();
+	AddRightClickClosing(win);
 });
 
 nw.App.on('open', function(cmdline) {
@@ -19,8 +20,21 @@ nw.App.on('open', function(cmdline) {
 	nw.Window.open('../index.html', windowObject, function(win) {
 		FindFilePath(fileArguments);
 		//win.showDevTools();
+		AddRightClickClosing(win);
 	});
 });
+
+function AddRightClickClosing(win) {
+	win.on('loaded', function() {
+		var doc = win.window.document;
+		doc.getElementById("dadresize").addEventListener("mouseup", function(event) { 
+			if (event.which === 3) {//right mouse
+		        win.close(); 
+		    }
+		    console.log("click");
+		});
+	});
+}
 
 function WriteToJson(path) {
 	let data = {filePath: path};
@@ -73,7 +87,7 @@ function RemoveExtraQuotes(imgPath) {
 function ValidateFilePath(imgPath) {
 	if ((/\.(gif|jpg|jpeg|jpe|jif|jfi|jfif|webp|bmp|svg|svgz|png)$/i).test(imgPath)) {}
 	else {
-		alert("Error: this file format not supported");
+		alert("Error: File format not supported");
 		win.close();
 	}
 }

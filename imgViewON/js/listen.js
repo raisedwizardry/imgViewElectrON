@@ -1,6 +1,4 @@
 $(document).ready(function() {
-    var nw = require('nw.gui');
-    var win = nw.Window.get();
     const fs = require('fs');
     let rawdata = fs.readFileSync('imgFilePath.json')
 
@@ -8,7 +6,7 @@ $(document).ready(function() {
     var theimg;
     
     theimg=addimgsrc(imgPath.filePath);
-    console.log(imgPath.filePath);
+    //console.log(imgPath.filePath);
     $(theimg).load(function() {
         var ratio=firstimgresize(theimg);
         $('#dadresize').prepend(theimg);
@@ -17,12 +15,6 @@ $(document).ready(function() {
     
     $('#dadresize').on('resize', function( event, ui ) {
         window.resizeTo(ui.size.width, ui.size.height);  
-    });
-
-    $('#dadresize').mouseup(function(eve) {
-        if (eve.which === 3) {//right mouse
-            win.close(); 
-        }
     });
 });
 
@@ -45,7 +37,6 @@ function intgen(min,max) {
 }
 //create an image and add the id and source to the new image
 function addimgsrc(imgPath) {
-    console.log(imgPath);
     img= new Image();
     img.id="main";
     img.src=imgPath;
