@@ -10,16 +10,22 @@ let windowObject = {
 
 let args=nw.App.argv;
 nw.Window.open('../index.html', windowObject, function(win) {
-	FindFilePath(args);
 	//win.showDevTools();
+	let filePath = FindFilePath(args);
+	filePath = RemoveExtraQuotes(filePath);
+	ValidateFilePath(filePath);
+	WriteToJson(filePath);
 	AddRightClickClosing(win);
 });
 
 nw.App.on('open', function(cmdline) {
 	let fileArguments = SubsequentFilePath(cmdline);
 	nw.Window.open('../index.html', windowObject, function(win) {
-		FindFilePath(fileArguments);
 		//win.showDevTools();
+		let filePath = FindFilePath(fileArguments);
+		filePath = RemoveExtraQuotes(filePath);
+		ValidateFilePath(filePath);
+		WriteToJson(filePath);
 		AddRightClickClosing(win);
 	});
 });
@@ -46,19 +52,16 @@ function FindFilePath(arg) {
 	let arglen=args.length;
 	let imgpath;
 	if (arglen === 1) {
-		imgpath = RemoveExtraQuotes(arg[0]);
-		WriteToJson(imgpath);
-		ValidateFilePath(imgpath);
+		imgpath = arg[0];
+		return imgpath;
 	}
 	else if (arglen > 1) {
-		imgpath = RemoveExtraQuotes(arg[0]);
-		WriteToJson(imgpath);
-		ValidateFilePath(imgpath);
+		imgpath = arg[0];
 		alert("Error: One image at a time");
+		return imgpath;
 	}
 	else if (arglen === 0) {
-		imgpath='../img/sizing.png'
-		WriteToJson(imgpath);
+		imgpath = "../img/sizing.png";
 		alert("Error: No image to display");
 		return imgpath;
 	}
