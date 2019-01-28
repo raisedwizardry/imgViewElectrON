@@ -9,11 +9,11 @@ $(document).ready(function() {
 	//console.log(imgPath.filePath);
 	$(theimg).load(function() {
 		var ratio=firstimgresize(theimg);
-		$('#dadresize').prepend(theimg);
+		$('#container').prepend(theimg);
 		uisize(ratio);
 	});
 	
-	$('#dadresize').on('resize', function( event, ui ) {
+	$('#container').on('resize', function( event, ui ) {
 		window.resizeTo(ui.size.width, ui.size.height);  
 	});
 });
@@ -153,7 +153,7 @@ function firstimgresize(img) {
 }
 //jquery-ui code that allows image resizes using side handles and adds helper/ghost images
 function uisize(origimgratio) {
-	$('#dadresize').resizable({
+	$('#container').resizable({
 		ghost: true,
 		helper: "resizable-helper",
 		aspectRatio: origimgratio,

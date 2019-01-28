@@ -79,7 +79,7 @@ function WriteToJson(imgPath) {
 function AddRightClickClosing(windowObject) {
 	windowObject.on('loaded', function() {
 		var doc = windowObject.window.document;
-		doc.getElementById("dadresize").addEventListener("mouseup", function(event) { 
+		doc.getElementById("container").addEventListener("mouseup", function(event) { 
 			if (event.which === 3) {//right mouse
 				windowObject.close(); 
 			}
