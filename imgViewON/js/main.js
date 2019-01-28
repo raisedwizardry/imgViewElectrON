@@ -8,7 +8,7 @@ let windowObject = {
 	transparent: true
 };
 
-let fileArguments=nw.App.argv;
+let fileArguments = nw.App.argv;
 nw.Window.open('../index.html', windowObject, function(win) {
 	SetUpWindow(fileArguments, win);
 });
@@ -31,7 +31,7 @@ function SetUpWindow(fileArguments, win) {
 
 
 function FindFilePath(arg, windowObject) {
-	let arglen=arg.length;
+	let arglen = arg.length;
 	let imgPath;
 	if (arglen === 1) {
 		imgPath = arg[0];
