@@ -29,9 +29,9 @@ function AddRightClickClosing(win) {
 		var doc = win.window.document;
 		doc.getElementById("dadresize").addEventListener("mouseup", function(event) { 
 			if (event.which === 3) {//right mouse
-		        win.close(); 
-		    }
-		    console.log("click");
+				win.close(); 
+			}
+			console.log("click");
 		});
 	});
 }
@@ -51,7 +51,7 @@ function FindFilePath(arg) {
 		ValidateFilePath(imgpath);
 	}
 	else if (arglen > 1) {
-	   	imgpath = RemoveExtraQuotes(arg[0]);
+		imgpath = RemoveExtraQuotes(arg[0]);
 		WriteToJson(imgpath);
 		ValidateFilePath(imgpath);
 		alert("Error: One image at a time");
@@ -77,7 +77,7 @@ function SubsequentFilePath(args) {
 
 function RemoveExtraQuotes(imgPath) {
 	if (imgPath.charAt(0) === '"' && imgPath.charAt(imgPath.length -1) === '"') {
-    	return imgPath.substr(1,imgPath.length -2);
+		return imgPath.substr(1,imgPath.length -2);
 	}
 	else {
 		return imgPath;
