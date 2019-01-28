@@ -1,64 +1,73 @@
-global.imgFilePath;
 var nw = require('nw.gui');
-var windowObject = {
+const fs = require('fs');
+let windowObject = {
 	icon: "../img/imgViewON.png",
 	frame: false,
 	resizable: false,
 	fullscreen: false,
 	transparent: true
 };
+
 let args=nw.App.argv;
-console.log(args);
 nw.Window.open('../index.html', windowObject, function(win) {
-	imgFilePath = FindFilePath(args);
-	ValidateFilePath(imgFilePath)
-	win.showDevTools();
-	win.on('loaded', () => {
-    	global.imgFilePath = imgFilePath;
-  	});
+	FindFilePath(args);
+	//win.showDevTools();
 });
 
-nw.App.on('open', function(args) {
-	console.log(args);
-	var fileArguments = SubsequentFilePath(args);
-	console.log(fileArguments);
+nw.App.on('open', function(cmdline) {
+	let fileArguments = SubsequentFilePath(cmdline);
 	nw.Window.open('../index.html', windowObject, function(win) {
-		win.showDevTools();
-		var imgFilePath = FindFilePath(fileArguments);
-		ValidateFilePath(imgFilePath);
-		console.log(imgFilePath);
-		win.on('loaded', () => {
-    		global.imgFilePath = imgFilePath;
-  		});
+		FindFilePath(fileArguments);
+		//win.showDevTools();
 	});
 });
 
+function WriteToJson(path) {
+	let data = {filePath: path};
+	let json = JSON.stringify(data, null, 2);
+	fs.writeFileSync('imgFilePath.json', json);
+}
+
 function FindFilePath(arg) {
 	let arglen=args.length;
-	var imgpath;
+	let imgpath;
 	if (arglen === 1) {
-		imgpath=args[0];
+		imgpath = RemoveExtraQuotes(arg[0]);
+		WriteToJson(imgpath);
+		ValidateFilePath(imgpath);
 	}
 	else if (arglen > 1) {
-	   	imgpath=args[0];
-	   	alert("Error: One image at a time");
+	   	imgpath = RemoveExtraQuotes(arg[0]);
+		WriteToJson(imgpath);
+		ValidateFilePath(imgpath);
+		alert("Error: One image at a time");
 	}
 	else if (arglen === 0) {
 		imgpath='../img/sizing.png'
+		WriteToJson(imgpath);
 		alert("Error: No image to display");
+		return imgpath;
 	}
 	else {
 		alert("Error: Could not access image");
 		win.close();
 	}
-	return imgpath;
 }
 
 function SubsequentFilePath(args) {
-	var fileArguments = /(.*)--original-process-start-time\=(\d+)(.*)/.exec(args).pop().split(' ');
+	let fileArguments = /(.*)--original-process-start-time\=(\d+)(.*)/.exec(args).pop().split(' ');
 	fileArguments.shift();
 	fileArguments.shift();
 	return fileArguments;
+}
+
+function RemoveExtraQuotes(imgPath) {
+	if (imgPath.charAt(0) === '"' && imgPath.charAt(imgPath.length -1) === '"') {
+    	return imgPath.substr(1,imgPath.length -2);
+	}
+	else {
+		return imgPath;
+	}
 }
 
 function ValidateFilePath(imgPath) {

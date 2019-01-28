@@ -1,13 +1,14 @@
-/*start of javascript code*/
 $(document).ready(function() {
     var nw = require('nw.gui');
     var win = nw.Window.get();
-    //var img = "D:\\Stuff\\Development\\nw.js\\imgViewr\\testimg\\IMG_1411.JPG"
-    //console.log(img);
+    const fs = require('fs');
+    let rawdata = fs.readFileSync('imgFilePath.json')
+
+    let imgPath = JSON.parse(rawdata);
     var theimg;
     
-    theimg=addimgsrc(global.imgFilePath);
-        
+    theimg=addimgsrc(imgPath.filePath);
+    console.log(imgPath.filePath);
     $(theimg).load(function() {
         var ratio=firstimgresize(theimg);
         $('#dadresize').prepend(theimg);
@@ -172,4 +173,3 @@ function uisize(origimgratio) {
         }
     });
 }
-
