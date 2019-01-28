@@ -16,7 +16,7 @@ When an image is opened using imgViewON you will see the opened image on the scr
 
 The below diagram shows the sections of the image you can use to change the size and location of the image.
 
-![](https://github.com/raisedwizardry/imgViewON/blob/master/imgViewON/imgViewON/img/sizing.png)
+![](https://raw.githubusercontent.com/raisedwizardry/imgViewON/master/imgViewON/img/sizing.png?raw=true)
 
 Moving Window: moving the image window is done by clicking and dragging the top and left sides of the image.
 
