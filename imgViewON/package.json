@@ -1,67 +1,36 @@
 {
-	"app_name": "imgViewON", 
-	"nodejs": true, 
-	"additional_trust_anchors": "",
-	"keywords": [
-		"image", 
-		"picture"
-	], 
-	"user-agent": "", 
+	"main": "js/main.js",
+	"name": "imgViewON",
+	"description": "Simple image viewer",
+	"version": "0.5",
+	"nodejs": true,
+	"keywords": [ "image", "picture" ],
 	"window": {
-		"fullscreen": false, 
-		"kiosk_emulation": false, 
-		"resizable": false, 
-		"title": "imgviewon", 
-		"always-on-top": false, 
-		"frame": false, 
-		"postion": "center", 
-		"kiosk": false, 
-		"focus": true, 
-		"height": 0, 
-		"exe_icon": "", 
-		"visible": true, 
-		"as_desktop": false, 
-		"width": 0, 
-		"show": true, 
-		"position": "", 
-		"show_in_taskbar": true, 
-		"mac_icon": "", 
-		"transparent": true, 
-		"toolbar": false, 
-		"icon": "./img/imgViewON.png"
-	}, 
-	"version": "0.5", 
-	"inject-js-start": "", 
-	"main": "js/main.js", 
-	"chromium-args": "", 
-	"webexe_settings": {
-		"linux-x32": false, 
-		"export_dir": "D:\\Stuff\\Development\\nw.js\\imgViewr\\release\\output", 
-		"windows-x64": false, 
-		"download_dir": "C:\\Program Files (x86)\\Web2Exe", 
-		"nw_compression_level": 0, 
-		"mac-x32": false, 
-		"windows-x32": true, 
-		"mac-x64": false, 
-		"nw_version": "0.35.5", 
-		"force_download": false, 
-		"linux-x64": false
-	}, 
-	"description": "Simple image viewer", 
+		"title": "imgviewon",
+		"icon": "./img/imgViewON.png",
+		"toolbar": false,
+		"frame": false,
+		"fullscreen": false,
+		"resizable": false,
+		"transparent": true,
+		"height": 0,
+		"width": 0,
+		"always-on-top": false,
+		"postion": "center"
+	},
+	"build": {
+		"nwVersion": "0.36.0"
+	},
 	"maintainers": [
 		{
-			"web": "http://www.github.com/raisedwizardry", 
-			"name": "raisedwizardry", 
+			"web": "http://www.github.com/raisedwizardry",
+			"name": "raisedwizardry",
 			"email": "lifebloodasmr@gmail.com"
 		}
-	], 
+	],
 	"webkit": {
-		"page-cache": false, 
-		"java": false, 
+		"page-cache": false,
+		"java": false,
 		"plugin": false
-	}, 
-	"js-flags": "", 
-	"name": "imgViewON",
-	"snapshot": "",
-	"node-main": ""
+	}
 }

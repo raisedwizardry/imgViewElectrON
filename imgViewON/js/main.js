@@ -20,21 +20,35 @@ nw.App.on('open', function(cmdline) {
 	});
 });
 
+function SubsequentFilePath(arg) {
+	let fileArguementString = ParseArguements(arg);
+	fileArguementString = RemoveExtraQuotes(fileArguementString);
+	let fileArgumentArray = SplitForMultiplePictures(fileArguementString);
+	return fileArgumentArray;
+}
+
 function SetUpWindow(fileArguments, win) {
 	//win.showDevTools();
 	let filePath = FindFilePath(fileArguments, win);
-	filePath = RemoveExtraQuotes(filePath);
 	ValidateFilePath(filePath, win);
 	WriteToJson(filePath);
 	AddRightClickClosing(win);
 }
-
 
 function FindFilePath(arg, windowObject) {
 	let arglen = arg.length;
 	let imgPath;
 	if (arglen === 1) {
 		imgPath = arg[0];
+		return imgPath;
+	}
+	else if (arglen === 2 && arg[0].endsWith("imgViewON")) {
+		imgPath = arg[1];
+		return imgPath;
+	}
+	else if (arglen > 2 && arg[0].endsWith("imgViewON")) {
+		imgPath = arg[1];
+		alert("Error: One image at a time");
 		return imgPath;
 	}
 	else if (arglen > 1) {
@@ -53,12 +67,31 @@ function FindFilePath(arg, windowObject) {
 	}
 }
 
+function ParseArguements(arg) {
+	let regex = /--original-process-start-time=\d+\s/;
+	let fileArguments = arg.split(regex);
+	fileArguments.shift();
+	return fileArguments[0];
+}
+
 function RemoveExtraQuotes(imgPath) {
 	if (imgPath.charAt(0) === '"' && imgPath.charAt(imgPath.length -1) === '"') {
 		return imgPath.substr(1,imgPath.length -2);
 	}
 	else {
 		return imgPath;
+	}
+}
+
+function SplitForMultiplePictures(fileArguments) {
+	let regex = /\"\s\"/;
+	if (fileArguments.search(regex) != -1) {
+		return fileArguments.split(regex);
+	}
+	else {
+		let arguementArray = [];
+		arguementArray.push(fileArguments);
+		return arguementArray;
 	}
 }
 
@@ -83,14 +116,6 @@ function AddRightClickClosing(windowObject) {
 			if (event.which === 3) {//right mouse
 				windowObject.close(); 
 			}
-			console.log("click");
 		});
 	});
-}
-
-function SubsequentFilePath(arg) {
-	let fileArguments = /(.*)--original-process-start-time\=(\d+)(.*)/.exec(arg).pop().split(' ');
-	fileArguments.shift();
-	fileArguments.shift();
-	return fileArguments;
 }
