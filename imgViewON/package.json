@@ -1,12 +1,15 @@
 {
 	"main": "js/main.js",
-	"name": "imgViewON",
+	"name": "imgviewon",
 	"description": "Simple image viewer",
 	"version": "0.5",
 	"nodejs": true,
-	"keywords": [ "image", "picture" ],
+	"keywords": [
+		"image",
+		"picture"
+	],
 	"window": {
-		"title": "imgviewon",
+		"title": "imgViewON",
 		"icon": "./img/imgViewON.png",
 		"toolbar": false,
 		"frame": false,
@@ -32,5 +35,8 @@
 		"page-cache": false,
 		"java": false,
 		"plugin": false
+	},
+	"dependencies": {
+		"image-size": "^0.7.4"
 	}
 }
