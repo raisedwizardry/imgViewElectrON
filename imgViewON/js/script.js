@@ -13,20 +13,10 @@ ready (function () {
     console.log(imagePath.filePath);
     const sizeOf = require('image-size');
     let dimensions = sizeOf(imagePath.filePath);
-    let imageRatio = dimensions.width / dimensions.height;
     let theImageInfo = CreateImageInfoObject(dimensions.width, dimensions.height);
     let initialImageDetail = DetermineImgDetail(imagePath.filePath, theImageInfo);
-    let container = document.getElementById('container');
     AddImageSource(initialImageDetail);
-    
-//    let resizeBot = document.getElementById('bottom-handle');
-//    resizeBot.addEventListener('mousedown', initResize, false);
-    
-//    let resizeRight = document.getElementById('right-handle');
-//    resizeRight.addEventListener('mousedown', initResize, false);
-    
-    let resizeBotRight = document.getElementById('bottomright-handle');
-    resizeBotRight.addEventListener('mousedown', InitResizeBotRight, false);
+    AddHandles(theImageInfo.imageRatio);
 });
 
 function CreateImageInfoObject(origWidth, origHeight){
@@ -52,8 +42,10 @@ function IsImageLargerThanScreen(imageObject) {
     }
 }
 
-function DetermineInitialSpot() {
-
+function randomPosition(whole, offset) {
+    let max = whole - offset
+    let min = 1
+    return Math.floor(Math.random()*(max-min+1)+min);
 }
 
 function DetermineInitialSizeByWidth(imageObject, resizeBool) {
@@ -86,10 +78,13 @@ function DetermineInitialSizeByWidth(imageObject, resizeBool) {
 function DetermineImgDetail(imageSource, theImageInfo) {
     let resizeImage = IsImageLargerThanScreen(theImageInfo);
     let resizedWidth = DetermineInitialSizeByWidth(theImageInfo, resizeImage);
+    let resizedHeight = FindMissingDimension(resizedWidth, 'wide', theImageInfo.imageRatio)
     let imgDetail = {
         "source": imageSource,
         "initialWidth": resizedWidth,
-        "initialHeight": FindMissingDimension(resizedWidth, 'wide', theImageInfo.imageRatio)
+        "initialHeight": resizedHeight,
+        "widthPosition": randomPosition(theImageInfo.screenWidth, resizedWidth), 
+        "heightPosition": randomPosition(theImageInfo.screenHeight, resizedHeight)
     }
     console.log(imgDetail.initialHeight);
     return imgDetail
@@ -112,21 +107,43 @@ function AddImageSource(imageDetailObject) {
     img.src = imageDetailObject.source;
     container.prepend(img);
     window.resizeTo(imageDetailObject.initialWidth, imageDetailObject.initialHeight);
+    window.moveTo(imageDetailObject.widthPosition, imageDetailObject.heightPosition);
 }
 
-function InitResizeBotRight(e) {
-    window.addEventListener('mousemove', ResizeBotRight, false);
-    window.addEventListener('mouseup', StopResizeBotRight, false);
-}
+function AddHandles(ratio) {
+    let container = document.getElementById('container');
+    document.getElementById('bottom-handle').addEventListener('mousedown', initResizeBot, false);
+    document.getElementById('right-handle').addEventListener('mousedown', initResize, false);
+    document.getElementById('bottomright-handle').addEventListener('mousedown', initResize, false);
 
-function ResizeBotRight(e) {
-    container.style.width = (e.clientX - container.offsetLeft) + 'px';
-    container.style.height = FindMissingDimension((e.clientX - container.offsetLeft), 'high', imageRatio) + 'px';
-
-    window.resizeTo((e.clientX - container.offsetLeft),FindMissingDimension(e.clientX - container.offsetLeft,'high', imageRatio));
-}
-
-function StopResizeBotRight(e) {
-    window.removeEventListener('mousemove', ResizeBotRight, false);
-    window.removeEventListener('mouseup', StopResizeBotRight, false);
+    function initResize(e) {
+        window.addEventListener('mousemove', Resize, false);
+        window.addEventListener('mouseup', stopResize, false);
+    }
+    function Resize(e) {
+        console.log(container.style.width, container.style.height);
+        container.style.width = e.clientX + 'px';
+        container.style.height = FindMissingDimension(e.clientX, "wide", ratio) + 'px';
+        window.resizeTo(e.clientX, FindMissingDimension(e.clientX, "wide", ratio));
+        console.log(ratio);
+    }
+    function stopResize(e) {
+        window.removeEventListener('mousemove', Resize, false);
+        window.removeEventListener('mouseup', stopResize, false);
+    }
+    function initResizeBot(e) {
+        window.addEventListener('mousemove', resizeBot, false);
+        window.addEventListener('mouseup', stopResizeBot, false);
+    }
+    function resizeBot(e) {
+        console.log(container.style.width, container.style.height);
+        container.style.width = FindMissingDimension(e.clientY, "high", ratio) + 'px';
+        container.style.height = e.clientY + 'px';
+        window.resizeTo(FindMissingDimension(e.clientY, "high", ratio), e.clientY);
+        console.log(ratio);
+    }
+    function stopResizeBot(e) {
+        window.removeEventListener('mousemove', resizeBot, false);
+        window.removeEventListener('mouseup', stopResizeBot, false);
+    }
 }
