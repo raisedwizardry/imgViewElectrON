@@ -10,12 +10,11 @@ ready (function () {
     const fs = require('fs');
     let rawdata = fs.readFileSync('imgFilePath.json')
     let imagePath = JSON.parse(rawdata);
-    console.log(imagePath.filePath);
     const sizeOf = require('image-size');
     let dimensions = sizeOf(imagePath.filePath);
     let theImageInfo = CreateImageInfoObject(dimensions.width, dimensions.height);
     let initialImageDetail = DetermineImgDetail(imagePath.filePath, theImageInfo);
-    AddImageSource(initialImageDetail);
+    InitializeImage(initialImageDetail);
     AddHandles(theImageInfo.imageRatio);
 });
 
@@ -30,6 +29,32 @@ function CreateImageInfoObject(origWidth, origHeight){
     return imageInfo
 }
 
+function DetermineImgDetail(imageSource, theImageInfo) {
+    let resizeImage = IsImageLargerThanScreen(theImageInfo);
+    let largerImageScreen = IsImageWiderAndHigherThanScreen(theImageInfo);
+    let widerImage = IsImageMoreWide(theImageInfo);
+    let resizedWidth = DetermineInitialSizeByWidth(theImageInfo, resizeImage, largerImageScreen, widerImage);
+    let resizedHeight = FindMissingDimension(resizedWidth, 'wide', theImageInfo.imageRatio)
+    let imgDetail = {
+        "source": imageSource,
+        "initialWidth": resizedWidth,
+        "initialHeight": resizedHeight,
+        "widthPosition": randomPosition(theImageInfo.screenWidth, resizedWidth), 
+        "heightPosition": randomPosition(theImageInfo.screenHeight, resizedHeight)
+    }
+    console.log(theImageInfo.origImageWidth);
+    console.log(theImageInfo.origImageHeight);
+    console.log(theImageInfo.imageRatio);
+    console.log(theImageInfo.screenWidth);
+    console.log(theImageInfo.screenHeight);
+    console.log(imgDetail.source);
+    console.log(imgDetail.initialWidth);
+    console.log(imgDetail.initialHeight);
+    console.log(imgDetail.widthPosition);
+    console.log(imgDetail.heightPosition);
+    return imgDetail
+}
+
 function IsImageLargerThanScreen(imageObject) {
     if (imageObject.origImageWidth > imageObject.screenWidth) {
         return true
@@ -42,52 +67,46 @@ function IsImageLargerThanScreen(imageObject) {
     }
 }
 
-function randomPosition(whole, offset) {
-    let max = whole - offset
-    let min = 1
-    return Math.floor(Math.random()*(max-min+1)+min);
+function IsImageWiderAndHigherThanScreen(imageObject) {
+    if ((imageObject.origImageWidth > imageObject.screenWidth) && (imageObject.origImageHeight > imageObject.screenHeight)) 
+        return true
+    else
+        return false
 }
 
-function DetermineInitialSizeByWidth(imageObject, resizeBool) {
+function IsImageMoreWide(imageObject) {
+    if (imageObject.origImageWidth > imageObject.origImageHeight)
+        return true
+    else
+        return false
+}
+
+function DetermineInitialSizeByWidth(imageObject, resizeBool, WiderAndHigherThanScreenBool, ImageMoreWideBool) {
     let resizedImageWidth
     if (resizeBool) {
-        if ((imageObject.origImageWidth > imageObject.screenWidth) && (imageObject.origImageHeight > imageObject.screenHeight)) {
-            if (imageObject.origImageHeight > imageObject.origImageWidth) {
-                let height = 0.8 * imageObject.screenHeight;
-                resizedImageWidth = FindMissingDimension(height,'high',imageObject.imageRatio);
+        if (WiderAndHigherThanScreenBool) {
+            if (ImageMoreWideBool) {
+                resizedImageWidth = 0.8 * imageObject.screenWidth;
             }    
             else {
-                resizedImageWidth = 0.8 * imageObject.screenWidth;
+                let height = 0.8 * imageObject.screenHeight;
+                resizedImageWidth = FindMissingDimension(height,'high',imageObject.imageRatio);
             }
         }
-        else if (imageObject.origImageWidth > imageObject.screenWidth) {
-            resizedImageWidth = 0.8 * imageObject.screenWidth;
-        }
-        else if (imageObject.origImageHeight > imageObject.screenHeight) {
-            let height = 0.8 * imageObject.screenHeight;
-            resizedImageWidth = FindMissingDimension(height,'high',imageObject.imageRatio);
+        else {
+            if (ImageMoreWideBool) {
+                resizedImageWidth = 0.8 * imageObject.screenWidth;
+            }    
+            else {
+                let height = 0.8 * imageObject.screenHeight;
+                resizedImageWidth = FindMissingDimension(height,'high',imageObject.imageRatio);
+            }
         }
     }
     else {
         resizedImageWidth = imageObject.origImageWidth;
     }
-    console.log(resizedImageWidth);
     return resizedImageWidth
-}
-
-function DetermineImgDetail(imageSource, theImageInfo) {
-    let resizeImage = IsImageLargerThanScreen(theImageInfo);
-    let resizedWidth = DetermineInitialSizeByWidth(theImageInfo, resizeImage);
-    let resizedHeight = FindMissingDimension(resizedWidth, 'wide', theImageInfo.imageRatio)
-    let imgDetail = {
-        "source": imageSource,
-        "initialWidth": resizedWidth,
-        "initialHeight": resizedHeight,
-        "widthPosition": randomPosition(theImageInfo.screenWidth, resizedWidth), 
-        "heightPosition": randomPosition(theImageInfo.screenHeight, resizedHeight)
-    }
-    console.log(imgDetail.initialHeight);
-    return imgDetail
 }
 
 function FindMissingDimension(distance, highOrWide, ratio) {
@@ -101,7 +120,13 @@ function FindMissingDimension(distance, highOrWide, ratio) {
     }
 }
 
-function AddImageSource(imageDetailObject) {
+function randomPosition(whole, offset) {
+    let max = whole - offset
+    let min = 1
+    return Math.floor(Math.random()*(max-min+1)+min);
+}
+
+function InitializeImage(imageDetailObject) {
     img = new Image();
     img.id = "main";
     img.src = imageDetailObject.source;
@@ -121,11 +146,9 @@ function AddHandles(ratio) {
         window.addEventListener('mouseup', stopResize, false);
     }
     function Resize(e) {
-        console.log(container.style.width, container.style.height);
         container.style.width = e.clientX + 'px';
         container.style.height = FindMissingDimension(e.clientX, "wide", ratio) + 'px';
         window.resizeTo(e.clientX, FindMissingDimension(e.clientX, "wide", ratio));
-        console.log(ratio);
     }
     function stopResize(e) {
         window.removeEventListener('mousemove', Resize, false);
@@ -136,11 +159,9 @@ function AddHandles(ratio) {
         window.addEventListener('mouseup', stopResizeBot, false);
     }
     function resizeBot(e) {
-        console.log(container.style.width, container.style.height);
         container.style.width = FindMissingDimension(e.clientY, "high", ratio) + 'px';
         container.style.height = e.clientY + 'px';
         window.resizeTo(FindMissingDimension(e.clientY, "high", ratio), e.clientY);
-        console.log(ratio);
     }
     function stopResizeBot(e) {
         window.removeEventListener('mousemove', resizeBot, false);
