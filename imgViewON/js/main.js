@@ -9,11 +9,7 @@ let windowObject = {
 };
 
 let fileArguments = nw.App.argv;
-chrome.developerPrivate.openDevTools({
-    renderViewId: -1,
-    renderProcessId: -1,
-    extensionId: chrome.runtime.id
-})
+//chrome.developerPrivate.openDevTools({renderViewId: -1, renderProcessId: -1, extensionId: chrome.runtime.id});
 nw.Window.open('../index.html', windowObject, function(win) {
     SetUpWindow(fileArguments, win);
 });
@@ -33,7 +29,7 @@ function SubsequentFilePath(arg) {
 }
 
 function SetUpWindow(fileArguments, win) {
-    win.showDevTools();
+    //win.showDevTools();
     let filePath = FindFilePath(fileArguments, win);
     ValidateFilePath(filePath, win);
     WriteToJson(filePath);

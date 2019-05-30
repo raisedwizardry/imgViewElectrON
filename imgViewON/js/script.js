@@ -30,10 +30,7 @@ function CreateImageInfoObject(origWidth, origHeight){
 }
 
 function DetermineImgDetail(imageSource, theImageInfo) {
-    let resizeImage = IsImageLargerThanScreen(theImageInfo);
-    let largerImageScreen = IsImageWiderAndHigherThanScreen(theImageInfo);
-    let widerImage = IsImageMoreWide(theImageInfo);
-    let resizedWidth = DetermineInitialSizeByWidth(theImageInfo, resizeImage, largerImageScreen, widerImage);
+    let resizedWidth = DetermineInitialSizeByWidth(theImageInfo);
     let resizedHeight = FindMissingDimension(resizedWidth, 'wide', theImageInfo.imageRatio)
     let imgDetail = {
         "source": imageSource,
@@ -42,16 +39,6 @@ function DetermineImgDetail(imageSource, theImageInfo) {
         "widthPosition": randomPosition(theImageInfo.screenWidth, resizedWidth), 
         "heightPosition": randomPosition(theImageInfo.screenHeight, resizedHeight)
     }
-    console.log(theImageInfo.origImageWidth);
-    console.log(theImageInfo.origImageHeight);
-    console.log(theImageInfo.imageRatio);
-    console.log(theImageInfo.screenWidth);
-    console.log(theImageInfo.screenHeight);
-    console.log(imgDetail.source);
-    console.log(imgDetail.initialWidth);
-    console.log(imgDetail.initialHeight);
-    console.log(imgDetail.widthPosition);
-    console.log(imgDetail.heightPosition);
     return imgDetail
 }
 
@@ -81,24 +68,19 @@ function IsImageMoreWide(imageObject) {
         return false
 }
 
-function DetermineInitialSizeByWidth(imageObject, resizeBool, WiderAndHigherThanScreenBool, ImageMoreWideBool) {
+function DetermineInitialSizeByWidth(imageObject) {
     let resizedImageWidth
-    if (resizeBool) {
-        if (WiderAndHigherThanScreenBool) {
-            if (ImageMoreWideBool) {
-                resizedImageWidth = 0.8 * imageObject.screenWidth;
-            }    
-            else {
-                let height = 0.8 * imageObject.screenHeight;
-                resizedImageWidth = FindMissingDimension(height,'high',imageObject.imageRatio);
-            }
+    if (IsImageLargerThanScreen(imageObject)) {
+        if (IsImageWiderAndHigherThanScreen(imageObject)) {
+            let screenSizeScale = 0.9 * Math.min(imageObject.screenWidth/imageObject.origImageWidth, imageObject.screenHeight/imageObject.origImageHeight);
+            resizedImageWidth = screenSizeScale * imageObject.origImageWidth;
         }
         else {
-            if (ImageMoreWideBool) {
-                resizedImageWidth = 0.8 * imageObject.screenWidth;
+            if (IsImageMoreWide(imageObject)) {
+                resizedImageWidth = 0.9 * imageObject.screenWidth;
             }    
             else {
-                let height = 0.8 * imageObject.screenHeight;
+                let height = 0.9 * imageObject.screenHeight;
                 resizedImageWidth = FindMissingDimension(height,'high',imageObject.imageRatio);
             }
         }
