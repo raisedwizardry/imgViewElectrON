@@ -15,7 +15,7 @@ ready (function () {
     let theImageInfo = CreateImageInfoObject(dimensions.width, dimensions.height);
     let initialImageDetail = DetermineImgDetail(imagePath.filePath, theImageInfo);
     InitializeImage(initialImageDetail);
-    AddHandles(theImageInfo.imageRatio);
+    AddHandle(theImageInfo.imageRatio, 'container');
 });
 
 function CreateImageInfoObject(origWidth, origHeight){
@@ -36,8 +36,8 @@ function DetermineImgDetail(imageSource, theImageInfo) {
         "source": imageSource,
         "initialWidth": resizedWidth,
         "initialHeight": resizedHeight,
-        "widthPosition": randomPosition(theImageInfo.screenWidth, resizedWidth), 
-        "heightPosition": randomPosition(theImageInfo.screenHeight, resizedHeight)
+        "widthPosition": RandomPosition(theImageInfo.screenWidth, resizedWidth), 
+        "heightPosition": RandomPosition(theImageInfo.screenHeight, resizedHeight)
     }
     return imgDetail
 }
@@ -92,17 +92,15 @@ function DetermineInitialSizeByWidth(imageObject) {
 }
 
 function FindMissingDimension(distance, highOrWide, ratio) {
-    if (highOrWide==='wide') {
-        let missed = distance/ratio;
-        return missed;
+    if (highOrWide === 'wide') {
+        return distance / ratio
     }
-    else if (highOrWide==='high') {
-        let missed = distance*ratio;
-        return missed;
+    else if (highOrWide === 'high') {
+        return distance * ratio
     }
 }
 
-function randomPosition(whole, offset) {
+function RandomPosition(whole, offset) {
     let max = whole - offset
     let min = 1
     return Math.floor(Math.random()*(max-min+1)+min);
@@ -115,38 +113,4 @@ function InitializeImage(imageDetailObject) {
     container.prepend(img);
     window.resizeTo(imageDetailObject.initialWidth, imageDetailObject.initialHeight);
     window.moveTo(imageDetailObject.widthPosition, imageDetailObject.heightPosition);
-}
-
-function AddHandles(ratio) {
-    let container = document.getElementById('container');
-    document.getElementById('bottom-handle').addEventListener('mousedown', initResizeBot, false);
-    document.getElementById('right-handle').addEventListener('mousedown', initResize, false);
-    document.getElementById('bottomright-handle').addEventListener('mousedown', initResize, false);
-
-    function initResize(e) {
-        window.addEventListener('mousemove', Resize, false);
-        window.addEventListener('mouseup', stopResize, false);
-    }
-    function Resize(e) {
-        container.style.width = e.clientX + 'px';
-        container.style.height = FindMissingDimension(e.clientX, "wide", ratio) + 'px';
-        window.resizeTo(e.clientX, FindMissingDimension(e.clientX, "wide", ratio));
-    }
-    function stopResize(e) {
-        window.removeEventListener('mousemove', Resize, false);
-        window.removeEventListener('mouseup', stopResize, false);
-    }
-    function initResizeBot(e) {
-        window.addEventListener('mousemove', resizeBot, false);
-        window.addEventListener('mouseup', stopResizeBot, false);
-    }
-    function resizeBot(e) {
-        container.style.width = FindMissingDimension(e.clientY, "high", ratio) + 'px';
-        container.style.height = e.clientY + 'px';
-        window.resizeTo(FindMissingDimension(e.clientY, "high", ratio), e.clientY);
-    }
-    function stopResizeBot(e) {
-        window.removeEventListener('mousemove', resizeBot, false);
-        window.removeEventListener('mouseup', stopResizeBot, false);
-    }
 }
