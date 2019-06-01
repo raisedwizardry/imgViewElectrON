@@ -1,42 +1,42 @@
 {
-	"main": "js/main.js",
-	"name": "imgviewon",
-	"description": "Simple image viewer",
-	"version": "0.5",
-	"nodejs": true,
-	"keywords": [
-		"image",
-		"picture"
-	],
-	"window": {
-		"title": "imgViewON",
-		"icon": "./img/imgViewON.png",
-		"toolbar": false,
-		"frame": false,
-		"fullscreen": false,
-		"resizable": false,
-		"transparent": true,
-		"height": 0,
-		"width": 0,
-		"always-on-top": false,
-		"postion": "center"
-	},
-	"build": {
-		"nwVersion": "0.36.0"
-	},
-	"maintainers": [
-		{
-			"web": "http://www.github.com/raisedwizardry",
-			"name": "raisedwizardry",
-			"email": "lifebloodasmr@gmail.com"
-		}
-	],
-	"webkit": {
-		"page-cache": false,
-		"java": false,
-		"plugin": false
-	},
-	"dependencies": {
-		"image-size": "^0.7.4"
-	}
+    "main": "js/main.js",
+    "name": "imgviewon",
+    "description": "Simple image viewer",
+    "version": "0.5",
+    "nodejs": true,
+    "keywords": [
+        "image",
+        "picture"
+    ],
+    "window": {
+        "title": "imgViewON",
+        "icon": "img/imgViewON.png",
+        "toolbar": false,
+        "frame": false,
+        "fullscreen": false,
+        "resizable": false,
+        "transparent": true,
+        "height": 0,
+        "width": 0,
+        "always-on-top": false,
+        "postion": "center"
+    },
+    "build": {
+        "nwVersion": "0.36.0"
+    },
+    "maintainers": [
+        {
+            "web": "http://www.github.com/raisedwizardry",
+            "name": "raisedwizardry",
+            "email": "lifebloodasmr@gmail.com"
+        }
+    ],
+    "webkit": {
+        "page-cache": false,
+        "java": false,
+        "plugin": false
+    },
+    "dependencies": {
+        "image-size": "^0.7.4"
+    }
 }
