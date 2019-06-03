@@ -110,7 +110,7 @@ function InitializeImage(imageDetailObject) {
     img = new Image();
     img.id = "main";
     img.src = imageDetailObject.source;
-    container.prepend(img);
+    document.getElementById('container').prepend(img);
     window.resizeTo(imageDetailObject.initialWidth, imageDetailObject.initialHeight);
     window.moveTo(imageDetailObject.widthPosition, imageDetailObject.heightPosition);
 }
