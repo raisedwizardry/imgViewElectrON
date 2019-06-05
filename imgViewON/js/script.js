@@ -42,6 +42,29 @@ function DetermineImgDetail(imageSource, theImageInfo) {
     return imgDetail
 }
 
+function DetermineInitialSizeByWidth(imageObject) {
+    let resizedImageWidth
+    if (IsImageLargerThanScreen(imageObject)) {
+        if (IsImageWiderAndHigherThanScreen(imageObject)) {
+            let screenSizeScale = 0.9 * Math.min(imageObject.screenWidth/imageObject.origImageWidth, imageObject.screenHeight/imageObject.origImageHeight);
+            resizedImageWidth = screenSizeScale * imageObject.origImageWidth;
+        }
+        else {
+            if (IsImageMoreWide(imageObject)) {
+                resizedImageWidth = 0.9 * imageObject.screenWidth;
+            }    
+            else {
+                let height = 0.9 * imageObject.screenHeight;
+                resizedImageWidth = FindMissingDimension(height,'high',imageObject.imageRatio);
+            }
+        }
+    }
+    else {
+        resizedImageWidth = imageObject.origImageWidth;
+    }
+    return resizedImageWidth
+}
+
 function IsImageLargerThanScreen(imageObject) {
     if (imageObject.origImageWidth > imageObject.screenWidth) {
         return true
@@ -66,29 +89,6 @@ function IsImageMoreWide(imageObject) {
         return true
     else
         return false
-}
-
-function DetermineInitialSizeByWidth(imageObject) {
-    let resizedImageWidth
-    if (IsImageLargerThanScreen(imageObject)) {
-        if (IsImageWiderAndHigherThanScreen(imageObject)) {
-            let screenSizeScale = 0.9 * Math.min(imageObject.screenWidth/imageObject.origImageWidth, imageObject.screenHeight/imageObject.origImageHeight);
-            resizedImageWidth = screenSizeScale * imageObject.origImageWidth;
-        }
-        else {
-            if (IsImageMoreWide(imageObject)) {
-                resizedImageWidth = 0.9 * imageObject.screenWidth;
-            }    
-            else {
-                let height = 0.9 * imageObject.screenHeight;
-                resizedImageWidth = FindMissingDimension(height,'high',imageObject.imageRatio);
-            }
-        }
-    }
-    else {
-        resizedImageWidth = imageObject.origImageWidth;
-    }
-    return resizedImageWidth
 }
 
 function FindMissingDimension(distance, highOrWide, ratio) {
