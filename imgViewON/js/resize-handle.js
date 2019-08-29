@@ -1,5 +1,7 @@
 function AddHandle(ratio, elementId) {
-    let container = document.getElementById(elementId);
+    let container = document.getElementById(elementId),
+        timeout = false, // holder for timeout id
+        delay = 250; // delay after event is "complete" to run callback
     document.getElementById('bottom-handle').addEventListener('mousedown', initResizeBot, false);
     document.getElementById('right-handle').addEventListener('mousedown', initResize, false);
     document.getElementById('bottomright-handle').addEventListener('mousedown', initResize, false);
@@ -12,6 +14,10 @@ function AddHandle(ratio, elementId) {
         container.style.width = e.clientX + 'px';
         container.style.height = e.clientX / ratio + 'px';
         window.resizeTo(e.clientX, e.clientX / ratio);
+        // clear the timeout
+        clearTimeout(timeout);
+        // start timing for event "completion"
+        timeout = setTimeout(getDimensions, delay);
     }
     function stopResize(e) {
         window.removeEventListener('mousemove', Resize, false);

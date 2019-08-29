@@ -9,12 +9,14 @@ let windowObject = {
 };
 
 let fileArguments = nw.App.argv;
+//console.log(nw.App.argv);
 //chrome.developerPrivate.openDevTools({renderViewId: -1, renderProcessId: -1, extensionId: chrome.runtime.id});
 nw.Window.open('../index.html', windowObject, function(win) {
     SetUpWindow(fileArguments, win);
 });
 
 nw.App.on('open', function(cmdline) {
+    //console.log(cmdline);
     let fileArguments = SubsequentFilePath(cmdline);
     nw.Window.open('../index.html', windowObject, function(win) {
         SetUpWindow(fileArguments, win);
