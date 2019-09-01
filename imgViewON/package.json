@@ -1,13 +1,20 @@
 {
-    "main": "js/main.js",
-    "name": "imgviewon",
-    "description": "Simple image viewer",
-    "version": "0.5",
+    "name": "imgViewON",
+    "version": "0.6.0",
+    "description": "imgViewON",
     "nodejs": true,
     "keywords": [
         "image",
         "picture"
     ],
+    "author": "raisedwizardry",
+    "license": "MIT",
+    "repository": "http://www.github.com/raisedwizardry",
+    "main": "js/main.js",
+    "scripts": {
+        "start": "nw . img/sizing.png",
+        "dist": "build --concurrent --tasks win-x86,linux-x86,linux-x64,mac-x64 --mirror https://dl.nwjs.io/ ."
+    },
     "window": {
         "title": "imgViewON",
         "icon": "img/imgViewON.png",
@@ -22,15 +29,38 @@
         "postion": "center"
     },
     "build": {
-        "nwVersion": "0.36.0"
-    },
-    "maintainers": [
-        {
-            "web": "http://www.github.com/raisedwizardry",
-            "name": "raisedwizardry",
-            "email": "lifebloodasmr@gmail.com"
+        "nwVersion": "0.40.2",
+        "nwFlavor": "normal",
+        "packed": false,
+        "targets": [
+            "zip",
+            "nsis7z"
+        ],
+        "excludes": [
+            "package-lock.json",
+            "assets/*"
+        ],
+        "strippedProperties": [
+            "scripts",
+            "devDependencies",
+            "build"
+        ],
+        "win": {
+            "icon": "img/imgViewON.ico"
+        },
+        "mac": {
+            "icon": "img/imgViewON.icns"
+        },
+        "nsis": {
+            "icon": "img/imgViewON.ico",
+            "unIcon": "img/imgViewON.ico",
+            "languages": [
+                "English"
+            ],
+            "diffUpdaters": false,
+            "hashCalculation": true
         }
-    ],
+    },
     "webkit": {
         "page-cache": false,
         "java": false,
@@ -38,5 +68,10 @@
     },
     "dependencies": {
         "image-size": "^0.7.4"
+    },
+    "devDependencies": {
+        "nw": "0.40.2",
+        "nwjs-builder-phoenix": "1.x.x",
+        "nwjs-types": "^1.0.0"
     }
 }
