@@ -1,5 +1,5 @@
 {
-    "name": "imgviewon",
+    "name": "imgViewON",
     "version": "0.6.0",
     "description": "imgViewON",
     "nodejs": true,
@@ -10,14 +10,16 @@
     "author": "raisedwizardry",
     "license": "MIT",
     "repository": "http://www.github.com/raisedwizardry",
-    "main": "js/main.js",
+    "main": "src/js/main.js",
     "scripts": {
-        "start": "nw . img/sizing.png",
-        "dist": "build --concurrent --tasks win-x86,linux-x86,linux-x64,mac-x64 --mirror https://dl.nwjs.io/ ."
+        "start": "nw . src/img/sample1.jpg",
+        "startanother": "nw . src/img/sample2.jpg",
+        "starttwo": "nw . src/img/sample1.jpg src/img/sample2.jpg",
+        "dist": "build --tasks win-x86 ."
     },
     "window": {
         "title": "imgViewON",
-        "icon": "img/imgViewON.png",
+        "icon": "src/img/imgViewON.png",
         "toolbar": false,
         "frame": false,
         "fullscreen": false,
@@ -32,6 +34,8 @@
         "nwVersion": "0.40.2",
         "nwFlavor": "normal",
         "packed": false,
+        "concurrent": true,
+        "mirror": "https://dl.nwjs.io/",
         "targets": [
             "zip",
             "nsis7z"
@@ -46,14 +50,14 @@
             "build"
         ],
         "win": {
-            "icon": "img/imgViewON.ico"
+            "icon": "assets/imgViewON.ico"
         },
         "mac": {
-            "icon": "img/imgViewON.icns"
+            "icon": "assets/imgViewON.icns"
         },
         "nsis": {
-            "icon": "img/imgViewON.ico",
-            "unIcon": "img/imgViewON.ico",
+            "icon": "assets/imgViewON.ico",
+            "unIcon": "assets/imgViewON.ico",
             "languages": [
                 "English"
             ],
@@ -67,10 +71,11 @@
         "plugin": false
     },
     "dependencies": {
+        "file-system": "^2.2.2",
         "image-size": "^0.7.4"
     },
     "devDependencies": {
-        "nw": "0.40.2",
+        "nw": "0.40.2-sdk",
         "nwjs-builder-phoenix": "1.x.x",
         "nwjs-types": "^1.0.0"
     }

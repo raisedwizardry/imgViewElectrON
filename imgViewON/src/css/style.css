@@ -1,0 +1,72 @@
+@charset "UTF-8";
+
+::-webkit-scrollbar { 
+    display: none;
+}
+html{
+    height: 100%;
+    overflow: hidden;
+}
+body{
+    height: 100%;
+    overflow: hidden;
+    background-image: url("../img/base.png");
+    background-repeat: repeat;
+    background-position: left top; 
+}
+
+
+#main {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+#top-titlebar {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 10%;
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+}
+#left-titlebar {
+    position: absolute;
+    left: 0px;
+    top: 10%;
+    width: 10%;
+    height: 90%;
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+}
+#right-handle {
+    position: absolute;
+    right: 0px;
+    top: 10%;
+    width: 10%;
+    height: 80%;
+    cursor: e-resize;
+    -webkit-user-select: none;
+}
+#bottom-handle {
+    position: absolute;
+    left: 10%;
+    bottom: 0px;
+    width: 80%;
+    height: 10%;
+    cursor: s-resize;
+    -webkit-user-select: none;
+}
+#bottomright-handle {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 10%;
+    height: 10%;
+    cursor: se-resize;
+    -webkit-user-select: none;
+}
+.smallimg{
+    padding: 100px;
+}
