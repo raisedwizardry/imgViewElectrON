@@ -15,7 +15,7 @@
         "start": "nw . src/img/sample1.jpg",
         "startanother": "nw . src/img/sample2.jpg",
         "starttwo": "nw . src/img/sample1.jpg src/img/sample2.jpg",
-        "dist": "build --tasks win-x86 ."
+        "dist": "build --tasks win-x86,linux-x86,linux-x64,mac-x64 ."
     },
     "window": {
         "title": "imgViewON",
@@ -71,7 +71,6 @@
         "plugin": false
     },
     "dependencies": {
-        "file-system": "^2.2.2",
         "image-size": "^0.7.4"
     },
     "devDependencies": {

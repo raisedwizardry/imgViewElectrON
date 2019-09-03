@@ -7,7 +7,7 @@ function ready (fn) {
 }
 
 ready (function () {
-    const fs = require('file-system');
+    const fs = require('fs');
     let rawdata = fs.readFileSync('imgFilePath.json')
     let imagePath = JSON.parse(rawdata);
     const sizeOf = require('image-size');
