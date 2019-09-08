@@ -7,9 +7,14 @@ let win
 function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
-    frame: false
+    icon: "src/img/imgViewON.png",
+    frame: false,
+    resizable: false,
+    fullscreen: false,
+    transparent: true,
+    webPreferences: {
+        nodeIntegration: true
+    }
   })
 
   // and load the index.html of the app.

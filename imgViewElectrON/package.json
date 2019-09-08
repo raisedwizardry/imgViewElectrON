@@ -16,10 +16,14 @@
         "startanother": "electron . src/img/sample2.jpg",
         "starttwo": "electron . src/img/sample1.jpg src/img/sample2.jpg"
     },
+    "build": {
+        "appId": "com.imgViewElectrON"
+    },
     "dependencies": {
         "image-size": "^0.7.4"
     },
     "devDependencies": {
-        "electron": "^6.0.7"
+        "electron": "^6.0.7",
+        "electron-builder": "^21.2.0"
     }
 }
