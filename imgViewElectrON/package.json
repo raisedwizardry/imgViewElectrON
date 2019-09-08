@@ -14,7 +14,9 @@
         "start": "electron .",
         "startone": "electron . src/img/sample1.jpg",
         "startanother": "electron . src/img/sample2.jpg",
-        "starttwo": "electron . src/img/sample1.jpg src/img/sample2.jpg"
+        "starttwo": "electron . src/img/sample1.jpg src/img/sample2.jpg",
+        "pack": "electron-builder --dir",
+        "dist": "electron-builder"
     },
     "build": {
         "appId": "com.imgViewElectrON"
@@ -23,6 +25,7 @@
         "image-size": "^0.7.4"
     },
     "devDependencies": {
+        "cypress": "^3.4.1",
         "electron": "^6.0.7",
         "electron-builder": "^21.2.0"
     }
