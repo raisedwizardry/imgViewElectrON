@@ -7,13 +7,12 @@ function ready (fn) {
 }
 
 ready (function () {
-    const fs = require('fs');
-    let rawdata = fs.readFileSync('imgFilePath.json')
-    let imagePath = JSON.parse(rawdata);
+    AddRightClickClosing();
+    let imagePath = process.argv[process.argv.length-1];
     const sizeOf = require('image-size');
-    let dimensions = sizeOf(imagePath.filePath);
+    let dimensions = sizeOf(imagePath);
     let theImageInfo = CreateImageInfoObject(dimensions.width, dimensions.height);
-    let initialImageDetail = DetermineImgDetail(imagePath.filePath, theImageInfo);
+    let initialImageDetail = DetermineImgDetail(imagePath, theImageInfo);
     InitializeImage(initialImageDetail);
     AddHandle(theImageInfo.imageRatio, 'container');
 });
@@ -113,4 +112,12 @@ function InitializeImage(imageDetailObject) {
     document.getElementById('container').prepend(img);
     window.resizeTo(imageDetailObject.initialWidth, imageDetailObject.initialHeight);
     window.moveTo(imageDetailObject.widthPosition, imageDetailObject.heightPosition);
+}
+
+function AddRightClickClosing() {
+    window.document.getElementById("container").addEventListener("mouseup", function(event) { 
+        if (event.which === 3) { //right mouse
+            window.close();
+        }
+    })
 }

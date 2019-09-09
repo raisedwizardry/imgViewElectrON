@@ -12,7 +12,7 @@
     "main": "main.js",
     "scripts": {
         "start": "electron .",
-        "startone": "electron . src/img/sample1.jpg",
+        "startone": "electron . --inspect=5858 src/img/sample1.jpg",
         "startanother": "electron . src/img/sample2.jpg",
         "starttwo": "electron . src/img/sample1.jpg src/img/sample2.jpg",
         "pack": "electron-builder --dir",
@@ -22,6 +22,7 @@
         "appId": "com.imgViewElectrON"
     },
     "dependencies": {
+        "electron-window-manager": "^1.0.6",
         "image-size": "^0.7.4"
     },
     "devDependencies": {
