@@ -1,7 +1,5 @@
 function AddHandle(ratio, elementId) {
-    let container = document.getElementById(elementId); //,
-        //timeout = false, // holder for timeout id
-        //delay = 250; // delay after event is "complete" to run callback
+    let container = document.getElementById(elementId);
     document.getElementById('bottom-handle').addEventListener('mousedown', initResizeBot, false);
     document.getElementById('right-handle').addEventListener('mousedown', initResize, false);
     document.getElementById('bottomright-handle').addEventListener('mousedown', initResize, false);
