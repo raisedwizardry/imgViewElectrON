@@ -1,6 +1,6 @@
 {
     "name": "imgViewElectrON",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "description": "imgViewElectrON",
     "keywords": [
         "image",
@@ -9,7 +9,7 @@
     "author": "raisedwizardry",
     "license": "MIT",
     "repository": "http://www.github.com/raisedwizardry/imgviewelectron",
-    "main": "main.js",
+    "main": "src/js/main.js",
     "scripts": {
         "start": "electron .",
         "startone": "electron . --inspect=5858 src/img/sample1.jpg",
