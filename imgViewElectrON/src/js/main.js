@@ -1,17 +1,9 @@
 const { app, BrowserWindow } = require('electron');
 let win;
 
-app.on('ready', ()=> { loopArgs() } );
-app.on('open-file', () => {
-    if (win === null) {
-        loopArgs();
-    }
-});
-app.on('activate', () => {
-    if (win === null) {
-        loopArgs();
-    }
-});
+app.on('ready', ()=> { loopArgs(); });
+app.on('open-file', () => {  loopArgs(); });
+app.on('activate', () => { loopArgs(); });
 
 
 app.on('window-all-closed', () => { app.quit(); });
