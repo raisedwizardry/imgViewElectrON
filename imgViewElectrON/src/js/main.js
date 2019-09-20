@@ -1,4 +1,5 @@
 const { app, BrowserWindow, dialog } = require('electron');
+const is = require('electron-is');
 let win;
 
 app.on('ready', ()=> { renderWindow(); });
@@ -9,21 +10,22 @@ app.on('activate', () => { renderWindow(); });
 app.on('window-all-closed', () => { app.quit(); });
 
 function renderWindow() {
-    let arg = process.argv.slice(1);
+    let sliceAmount;
+    if (process.defaultApp) { sliceAmount = 2; }
+    else { sliceAmount = 1; }
+    let arg = process.argv.slice(sliceAmount);
     if (arg.length === 0) {
         dialog.showErrorBox("Error", "No image to display");
-        createWindow("src/img/sizing.png")
+        createWindow("src/img/sizing.png");
     }
     else if(arg.length > 0) {
         for (let file in arg) {
-            if (!arg[file].startsWith("--")) {
-                if (!(arg[file] === ".")) {
-                    if ((/\.(gif|jpg|jpeg|jpe|jif|jfi|jfif|webp|bmp|svg|svgz|png)$/i).test(arg[file])) {
-                        createWindow(arg[file]);
-                    }
-                    else {
-                        dialog.showErrorBox("Error", "File format not supported");
-                    }
+            if (!arg[file].startsWith("--inspect=5858")) {
+                if ((/\.(gif|jpg|jpeg|jpe|jif|jfi|jfif|webp|bmp|svg|svgz|png)$/i).test(arg[file])) {
+                    createWindow(arg[file]);
+                }
+                else {
+                    dialog.showErrorBox("Error", "File format not supported");
                 }
             }
         }
@@ -47,6 +49,6 @@ function createWindow(imgFilePath) {
     });
 
     win.loadFile('index.html');
-    //win.webContents.openDevTools({ mode: 'detach' });
+    win.webContents.openDevTools({ mode: 'detach' });
     win.on('closed', () => { win = null });
 }
