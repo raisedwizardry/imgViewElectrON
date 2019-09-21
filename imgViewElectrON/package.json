@@ -15,6 +15,7 @@
         "startone": "electron . src/img/sample1.jpg",
         "startalt": "electron . src/img/sample2.jpg",
         "starttwo": "electron . src/img/sample1.jpg src/img/sample2.jpg",
+        "nofile": "electron .",
         "pack": "electron-builder --dir",
         "dist": "electron-builder"
     },

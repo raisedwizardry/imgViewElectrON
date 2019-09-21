@@ -2,36 +2,73 @@ const { app, BrowserWindow, dialog } = require('electron');
 const is = require('electron-is');
 let win;
 
-app.on('ready', ()=> { renderWindow(); });
-app.on('open-file', () => {  renderWindow(); });
-app.on('activate', () => { renderWindow(); });
-
+app.on('ready', ()=> { setupFileArgs(); });
+app.on('open-file', (event, path) => {  
+    event.preventDefault();
+    renderWindow(path); 
+});
+app.on('activate', () => { setupFileArgs(); });
 
 app.on('window-all-closed', () => { app.quit(); });
 
-function renderWindow() {
-    let sliceAmount;
-    if (process.defaultApp) { sliceAmount = 2; }
-    else { sliceAmount = 1; }
+function setupFileArgs() {
+    let sliceAmount = determineArgStartFilePath();
     let arg = process.argv.slice(sliceAmount);
-    if (arg.length === 0) {
+    if ((arg.length === 0) || is.macOS()) {
         dialog.showErrorBox("Error", "No image to display");
         createWindow("src/img/sizing.png");
     }
     else if(arg.length > 0) {
         for (let file in arg) {
-            if (!arg[file].startsWith("--inspect=5858")) {
-                if ((/\.(gif|jpg|jpeg|jpe|jif|jfi|jfif|webp|bmp|svg|svgz|png)$/i).test(arg[file])) {
-                    createWindow(arg[file]);
-                }
-                else {
-                    dialog.showErrorBox("Error", "File format not supported");
-                }
-            }
+            renderWindow(arg[file])
         }
     }
     else {
         dialog.showErrorBox("Error", "Could not access image");
+    }
+}
+
+function renderWindow(imgFilePath) {
+    if (notDebugArgFilePath(imgFilePath) && notMacPsnArgFilePath(imgFilePath) && validFilePath(imgFilePath)) {
+        createWindow(imgFilePath);
+    }
+}
+
+function determineArgStartFilePath() {
+    if (process.defaultApp) {
+        sliceAmount = 2;
+    }
+    else {
+        sliceAmount = 1;
+    }
+    return sliceAmount
+}
+
+function notDebugArgFilePath(imgFilePath) {
+    if (!imgFilePath.startsWith("--inspect=5858")) {
+        return true;
+    }
+    else { 
+        return false;
+    }
+}
+
+function notMacPsnArgFilePath(imgFilePath) {
+    if (!imgFilePath.startsWith("-psn")) {
+        return true;
+    }
+    else { 
+        return false;
+    }
+}
+
+function validFilePath(imgFilePath) {
+    if ((/\.(gif|jpg|jpeg|jpe|jif|jfi|jfif|webp|bmp|svg|svgz|png)$/i).test(imgFilePath)) {
+        return true;
+    }
+    else { 
+        dialog.showErrorBox("Error", "File format not supported");
+        return false;
     }
 }
 
@@ -49,6 +86,6 @@ function createWindow(imgFilePath) {
     });
 
     win.loadFile('index.html');
-    win.webContents.openDevTools({ mode: 'detach' });
+    //win.webContents.openDevTools({ mode: 'detach' });
     win.on('closed', () => { win = null });
 }
