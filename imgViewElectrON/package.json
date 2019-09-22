@@ -1,6 +1,6 @@
 {
     "name": "imgViewElectrON",
-    "version": "0.5.0",
+    "version": "0.6.0",
     "description": "imgViewElectrON",
     "keywords": [
         "image",
@@ -16,11 +16,23 @@
         "startalt": "electron . src/img/sample2.jpg",
         "starttwo": "electron . src/img/sample1.jpg src/img/sample2.jpg",
         "nofile": "electron .",
+        "junkfile": "electron . src/img/junkfile.jpg",
         "pack": "electron-builder --dir",
         "dist": "electron-builder"
     },
     "build": {
-        "appId": "com.imgViewElectrON"
+        "appId": "com.imgViewElectrON",
+        "mac": {
+            "category": "public.app-category.business",
+            "type": "distribution",
+            "fileAssociations": [
+                {
+                    "ext": ["jpg", "jpeg", "png", "PNG", "tiff"],
+                    "description": "Image files",
+                    "role": "Viewer"
+                }
+            ]
+        }
     },
     "dependencies": {
         "electron-is": "^3.0.0",

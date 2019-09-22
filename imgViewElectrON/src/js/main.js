@@ -1,30 +1,61 @@
 const { app, BrowserWindow, dialog } = require('electron');
+const fs = require("fs");
 const is = require('electron-is');
 let win;
+let macPath;
 
 app.on('ready', ()=> { setupFileArgs(); });
-app.on('open-file', (event, path) => {  
-    event.preventDefault();
-    renderWindow(path); 
+
+app.on('will-finish-launching', () => {
+    app.on('open-file', (event, path) => {
+        event.preventDefault();
+        macPath = path;
+    });
 });
-app.on('activate', () => { setupFileArgs(); });
+
+//app.on('activate', () => { setupFileArgs(); });
 
 app.on('window-all-closed', () => { app.quit(); });
 
 function setupFileArgs() {
-    let sliceAmount = determineArgStartFilePath();
-    let arg = process.argv.slice(sliceAmount);
-    if ((arg.length === 0) || is.macOS()) {
+    let arg
+    if (is.windows())
+    {
+        let sliceAmount = determineArgStartFilePath();
+        arg = process.argv.slice(sliceAmount);
+    }
+    if ((is.windows() && (arg.length === 0)) || (is.macOS() && !macPath)) {
         dialog.showErrorBox("Error", "No image to display");
         createWindow("src/img/sizing.png");
     }
-    else if(arg.length > 0) {
-        for (let file in arg) {
-            renderWindow(arg[file])
+    else if ((is.windows && (arg.length > 0)) || (is.macOS() && macPath)) {
+        if (is.windows() && checkForFileExistance()) {
+            for (let file in arg) {
+                if (checkForFileExistance(arg[file])) {
+                    renderWindow(arg[file])
+                }
+            }
+        }
+        else if (is.macOS()) {
+            if (checkForFileExistance(macPath)) {
+                renderWindow(macPath);
+                macPath = null;
+            }
         }
     }
     else {
         dialog.showErrorBox("Error", "Could not access image");
+    }
+}
+
+function checkForFileExistance(imgFilePath) {
+    if (fs.existsSync(imgFilePath)) {
+        return true;
+    }
+    else {
+        dialog.showErrorBox("Error", "Image does not exist in path given");
+        createWindow("src/img/sizing.png");
+        return false;
     }
 }
 
