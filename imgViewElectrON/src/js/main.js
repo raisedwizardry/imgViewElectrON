@@ -1,10 +1,11 @@
-const { mainWindow, app, BrowserWindow, dialog } = require('electron');
+const { app, BrowserWindow, dialog } = require('electron');
+const ipc = require('electron').ipcMain;
 const fs = require("fs");
 const is = require('electron-is');
 let win;
 //let macPath;
 
-app.on('open-file', ()=> { setupFileArgs(); });
+//app.on('open-file', ()=> { setupFileArgs(); });
 
 app.on('ready', ()=> { setupFileArgs(); });
 
@@ -12,13 +13,13 @@ app.on('will-finish-launching', () => {
     app.on('open-file', (event, path) => {
         event.preventDefault();
         //macPath = path;
-        mainWindow.send('open-file', path);
+        ipc.send('activate', path);
     });
 });
 
-app.on('open-file', ()=> { setupFileArgs(); });
+//app.on('open-file', ()=> { setupFileArgs(); });
 
-//app.on('activate', () => { setupFileArgs(); });
+app.on('activate', () => { setupFileArgs(); });
 
 app.on('window-all-closed', () => { app.quit(); });
 
