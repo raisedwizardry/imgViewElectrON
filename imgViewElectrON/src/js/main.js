@@ -1,35 +1,40 @@
-const { app, BrowserWindow, dialog } = require('electron');
+const { mainWindow, app, BrowserWindow, dialog } = require('electron');
 const fs = require("fs");
 const is = require('electron-is');
 let win;
-let macPath;
+//let macPath;
+
+app.on('open-file', ()=> { setupFileArgs(); });
 
 app.on('ready', ()=> { setupFileArgs(); });
 
 app.on('will-finish-launching', () => {
     app.on('open-file', (event, path) => {
         event.preventDefault();
-        macPath = path;
+        //macPath = path;
+        mainWindow.send('open-file', path);
     });
 });
+
+app.on('open-file', ()=> { setupFileArgs(); });
 
 //app.on('activate', () => { setupFileArgs(); });
 
 app.on('window-all-closed', () => { app.quit(); });
 
 function setupFileArgs() {
-    let arg
-    if (is.windows())
-    {
-        let sliceAmount = determineArgStartFilePath();
-        arg = process.argv.slice(sliceAmount);
-    }
-    if ((is.windows() && (arg.length === 0)) || (is.macOS() && !macPath)) {
+    let arg;
+    //if (is.windows())
+    //{
+    let sliceAmount = determineArgStartFilePath();
+    arg = process.argv.slice(sliceAmount);
+    //}
+    if ((is.windows() && (arg.length === 0)) || (is.macOS() && (arg.length === 0))) { //(is.macOS() && !macPath)) {
         dialog.showErrorBox("Error", "No image to display");
         createWindow("src/img/sizing.png");
     }
-    else if ((is.windows && (arg.length > 0)) || (is.macOS() && macPath)) {
-        if (is.windows() && checkForFileExistance()) {
+    else if ((is.windows() && (arg.length > 0)) || (is.macOS() && (arg.length > 0))) { //(is.macOS() && macPath)) {
+        if (is.windows()) {
             for (let file in arg) {
                 if (checkForFileExistance(arg[file])) {
                     renderWindow(arg[file])
@@ -38,8 +43,8 @@ function setupFileArgs() {
         }
         else if (is.macOS()) {
             if (checkForFileExistance(macPath)) {
-                renderWindow(macPath);
-                macPath = null;
+                renderWindow(arg[0]);
+                //macPath = null;
             }
         }
     }
