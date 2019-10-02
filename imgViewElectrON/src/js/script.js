@@ -5,16 +5,21 @@ function ready (fn) {
         document.addEventListener('DOMContentLoaded', fn);
     }
 }
+const { ipcRenderer } = require('electron');
+const sizeOf = require('image-size');
 
 ready (function () {
     AddRightClickClosing();
-    let imagePath = process.argv[process.argv.length-1];
-    const sizeOf = require('image-size');
-    let dimensions = sizeOf(imagePath);
-    let theImageInfo = CreateImageInfoObject(dimensions.width, dimensions.height);
-    let initialImageDetail = DetermineImgDetail(imagePath, theImageInfo);
-    InitializeImage(initialImageDetail);
-    AddHandle(theImageInfo.imageRatio, 'container');
+    let argNumber = process.argv[process.argv.length-1];
+    ipcRenderer.send('ready-for-file', argNumber);
+    ipcRenderer.on('file-opened', (event, data) => {
+        console.log(data.filePath);
+        let dimensions = sizeOf(data.filePath);
+        let theImageInfo = CreateImageInfoObject(dimensions.width, dimensions.height);
+        let initialImageDetail = DetermineImgDetail(data.filePath, theImageInfo);
+        InitializeImage(initialImageDetail);
+        AddHandle(theImageInfo.imageRatio, 'container');
+    });
 });
 
 function CreateImageInfoObject(origWidth, origHeight){

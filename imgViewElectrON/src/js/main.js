@@ -1,51 +1,49 @@
 const { app, BrowserWindow, dialog } = require('electron');
-const ipc = require('electron').ipcMain;
+const { ipcMain } = require('electron');
 const fs = require("fs");
 const is = require('electron-is');
 let win;
-//let macPath;
+let Paths = [];
 
-//app.on('open-file', ()=> { setupFileArgs(); });
+ipcMain.on('ready-for-file', (event, data) => {
+    if (data === "none") { event.reply('file-opened', {filePath: 'src/img/sizing.png'}); }
+    else { event.reply('file-opened', {filePath: Paths[data]}); }
+});
 
 app.on('ready', ()=> { setupFileArgs(); });
 
 app.on('will-finish-launching', () => {
     app.on('open-file', (event, path) => {
         event.preventDefault();
-        //macPath = path;
-        ipc.send('activate', path);
+        Paths.push(path);
+        setupFileArgs();
     });
 });
-
-//app.on('open-file', ()=> { setupFileArgs(); });
 
 app.on('activate', () => { setupFileArgs(); });
 
 app.on('window-all-closed', () => { app.quit(); });
 
 function setupFileArgs() {
-    let arg;
-    //if (is.windows())
-    //{
-    let sliceAmount = determineArgStartFilePath();
-    arg = process.argv.slice(sliceAmount);
-    //}
-    if ((is.windows() && (arg.length === 0)) || (is.macOS() && (arg.length === 0))) { //(is.macOS() && !macPath)) {
-        dialog.showErrorBox("Error", "No image to display");
-        createWindow("src/img/sizing.png");
+    if (is.windows()) {
+        let sliceAmount = determineArgStartFilePath();
+        Paths = process.argv.slice(sliceAmount);
     }
-    else if ((is.windows() && (arg.length > 0)) || (is.macOS() && (arg.length > 0))) { //(is.macOS() && macPath)) {
+    if (Paths.length === 0) {
+        dialog.showErrorBox("Error", "No image to display");
+        createWindow("none");
+    }
+    else if (Paths.length > 0) {
         if (is.windows()) {
-            for (let file in arg) {
-                if (checkForFileExistance(arg[file])) {
-                    renderWindow(arg[file])
+            for (let file in Paths) {
+                if (checkForValidArgs(Paths[file])) {
+                    checkForFileExistance(Paths[file], file)
                 }
             }
         }
         else if (is.macOS()) {
-            if (checkForFileExistance(macPath)) {
-                renderWindow(arg[0]);
-                //macPath = null;
+            if (checkForValidArgs(Paths[0])) {
+                checkForFileExistance(Paths[0], 0);
             }
         }
     }
@@ -54,49 +52,36 @@ function setupFileArgs() {
     }
 }
 
-function checkForFileExistance(imgFilePath) {
+function checkForFileExistance(imgFilePath, argNumber) {
     if (fs.existsSync(imgFilePath)) {
-        return true;
+        createWindow(argNumber);
     }
     else {
-        dialog.showErrorBox("Error", "Image does not exist in path given");
-        createWindow("src/img/sizing.png");
-        return false;
+        dialog.showErrorBox("Error", `Image Path Given: ${imgFilePath} does not exist in path given`);
     }
 }
 
-function renderWindow(imgFilePath) {
+function checkForValidArgs(imgFilePath) {
     if (notDebugArgFilePath(imgFilePath) && notMacPsnArgFilePath(imgFilePath) && validFilePath(imgFilePath)) {
-        createWindow(imgFilePath);
+        return true;
     }
+    else { return false; }
 }
 
 function determineArgStartFilePath() {
-    if (process.defaultApp) {
-        sliceAmount = 2;
-    }
-    else {
-        sliceAmount = 1;
-    }
+    if (process.defaultApp) { sliceAmount = 2; }
+    else { sliceAmount = 1; }
     return sliceAmount
 }
 
 function notDebugArgFilePath(imgFilePath) {
-    if (!imgFilePath.startsWith("--inspect=5858")) {
-        return true;
-    }
-    else { 
-        return false;
-    }
+    if (!imgFilePath.startsWith("--inspect=5858")) { return true; }
+    else { return false; }
 }
 
 function notMacPsnArgFilePath(imgFilePath) {
-    if (!imgFilePath.startsWith("-psn")) {
-        return true;
-    }
-    else { 
-        return false;
-    }
+    if (!imgFilePath.startsWith("-psn")) { return true; }
+    else { return false; }
 }
 
 function validFilePath(imgFilePath) {
@@ -109,7 +94,7 @@ function validFilePath(imgFilePath) {
     }
 }
 
-function createWindow(imgFilePath) {
+function createWindow(fileNumber) {
     win = new BrowserWindow({
         icon: "src/img/imgViewON.png",
         frame: false,
@@ -118,11 +103,11 @@ function createWindow(imgFilePath) {
         transparent: true,
         webPreferences: {
             nodeIntegration: true,
-            additionalArguments: [ imgFilePath ]
+            additionalArguments: [ fileNumber ]
         }
     });
 
     win.loadFile('index.html');
     //win.webContents.openDevTools({ mode: 'detach' });
-    win.on('closed', () => { win = null });
+    win.on('closed', () => { win = null; });
 }
