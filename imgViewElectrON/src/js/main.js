@@ -10,22 +10,18 @@ ipcMain.on('ready-for-file', (event, data) => {
     else { event.reply('file-opened', {filePath: Paths[data]}); }
 });
 
-app.on('ready', ()=> { setupFileArgs(); });
-
-app.on('will-finish-launching', () => {
-    app.on('open-file', (event, path) => {
-        event.preventDefault();
-        Paths.push(path);
-        setupFileArgs();
-    });
+app.on('open-file', (event, path) => {
+    event.preventDefault();
+    Paths.push(path);
+    app.on('ready', ()=> { setupFileArgs(); });
 });
 
-app.on('activate', () => { setupFileArgs(); });
+app.on('ready', ()=> { setupFileArgs(); });
 
 app.on('window-all-closed', () => { app.quit(); });
 
 function setupFileArgs() {
-    if (is.windows()) {
+    if (Paths.length === 0) {
         let sliceAmount = determineArgStartFilePath();
         Paths = process.argv.slice(sliceAmount);
     }
@@ -34,16 +30,9 @@ function setupFileArgs() {
         createWindow("none");
     }
     else if (Paths.length > 0) {
-        if (is.windows()) {
-            for (let file in Paths) {
-                if (checkForValidArgs(Paths[file])) {
-                    checkForFileExistance(Paths[file], file)
-                }
-            }
-        }
-        else if (is.macOS()) {
-            if (checkForValidArgs(Paths[0])) {
-                checkForFileExistance(Paths[0], 0);
+        for (let file in Paths) {
+            if (checkForValidArgs(Paths[file])) {
+                checkForFileExistance(Paths[file], file)
             }
         }
     }
