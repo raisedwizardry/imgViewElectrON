@@ -1,7 +1,6 @@
 const { app, BrowserWindow, dialog } = require('electron');
 const { ipcMain } = require('electron');
 const fs = require("fs");
-const is = require('electron-is');
 let win;
 let Paths = [];
 
@@ -13,7 +12,6 @@ ipcMain.on('ready-for-file', (event, data) => {
 app.on('open-file', (event, path) => {
     event.preventDefault();
     Paths.push(path);
-    app.on('ready', ()=> { setupFileArgs(); });
 });
 
 app.on('ready', ()=> { setupFileArgs(); });
@@ -50,17 +48,14 @@ function checkForFileExistance(imgFilePath, argNumber) {
     }
 }
 
-function checkForValidArgs(imgFilePath) {
-    if (notDebugArgFilePath(imgFilePath) && notMacPsnArgFilePath(imgFilePath) && validFilePath(imgFilePath)) {
+function validFilePath(imgFilePath) {
+    if ((/\.(gif|jpg|jpeg|jpe|jif|jfi|jfif|webp|bmp|svg|svgz|png)$/i).test(imgFilePath)) {
         return true;
     }
-    else { return false; }
-}
-
-function determineArgStartFilePath() {
-    if (process.defaultApp) { sliceAmount = 2; }
-    else { sliceAmount = 1; }
-    return sliceAmount
+    else { 
+        dialog.showErrorBox("Error", "File format not supported");
+        return false;
+    }
 }
 
 function notDebugArgFilePath(imgFilePath) {
@@ -73,14 +68,17 @@ function notMacPsnArgFilePath(imgFilePath) {
     else { return false; }
 }
 
-function validFilePath(imgFilePath) {
-    if ((/\.(gif|jpg|jpeg|jpe|jif|jfi|jfif|webp|bmp|svg|svgz|png)$/i).test(imgFilePath)) {
+function checkForValidArgs(imgFilePath) {
+    if (validFilePath(imgFilePath) && notDebugArgFilePath(imgFilePath) && notMacPsnArgFilePath(imgFilePath)) {
         return true;
     }
-    else { 
-        dialog.showErrorBox("Error", "File format not supported");
-        return false;
-    }
+    else { return false; }
+}
+
+function determineArgStartFilePath() {
+    if (process.defaultApp) { sliceAmount = 2; }
+    else { sliceAmount = 1; }
+    return sliceAmount
 }
 
 function createWindow(fileNumber) {
