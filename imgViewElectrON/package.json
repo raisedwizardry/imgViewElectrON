@@ -22,14 +22,29 @@
     },
     "build": {
         "appId": "com.imgViewElectrON",
+        "linux": {
+            "target": [
+                "AppImage",
+                "deb"
+            ]
+        },
         "mac": {
             "category": "public.app-category.business",
             "type": "distribution",
             "fileAssociations": [
                 {
                     "ext": [
+                        "gif",
+                        "jpe",
                         "jpg",
                         "jpeg",
+                        "jif",
+                        "jfi",
+                        "jfif",
+                        "webp",
+                        "bmp",
+                        "svg",
+                        "svgz",
                         "png",
                         "PNG",
                         "tiff"
