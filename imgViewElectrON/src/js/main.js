@@ -83,7 +83,7 @@ function determineArgStartFilePath() {
 
 function createWindow(fileNumber) {
     win = new BrowserWindow({
-        icon: "src/img/imgViewON.png",
+        icon: "src/img/imgViewElectrON.png",
         frame: false,
         resizable: false,
         fullscreen: false,
