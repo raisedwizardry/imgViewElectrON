@@ -30,7 +30,8 @@ function CreateImageInfoObject(origWidth, origHeight){
         "screenWidth": window.screen.availWidth,
         "screenHeight": window.screen.availHeight
     }
-    return imageInfo
+    console.log(imageInfo);
+    return imageInfo;
 }
 
 function DetermineImgDetail(imageSource, theImageInfo) {
@@ -43,18 +44,19 @@ function DetermineImgDetail(imageSource, theImageInfo) {
         "widthPosition": RandomPosition(theImageInfo.screenWidth, resizedWidth), 
         "heightPosition": RandomPosition(theImageInfo.screenHeight, resizedHeight)
     }
-    return imgDetail
+    console.log(imgDetail);
+    return imgDetail;
 }
 
 function DetermineInitialSizeByWidth(imageObject) {
-    let resizedImageWidth
+    let resizedImageWidth;
     if (IsImageLargerThanScreen(imageObject)) {
         if (IsImageWiderAndHigherThanScreen(imageObject)) {
             let screenSizeScale = 0.9 * Math.min(imageObject.screenWidth/imageObject.origImageWidth, imageObject.screenHeight/imageObject.origImageHeight);
             resizedImageWidth = screenSizeScale * imageObject.origImageWidth;
         }
         else {
-            if (IsImageMoreWide(imageObject)) {
+            if (IsImageWiderThanScreen(imageObject)) {
                 resizedImageWidth = 0.9 * imageObject.screenWidth;
             }    
             else {
@@ -66,33 +68,33 @@ function DetermineInitialSizeByWidth(imageObject) {
     else {
         resizedImageWidth = imageObject.origImageWidth;
     }
-    return resizedImageWidth
+    return resizedImageWidth;
 }
 
 function IsImageLargerThanScreen(imageObject) {
     if (imageObject.origImageWidth > imageObject.screenWidth) {
-        return true
+        return true;
     }
     else if (imageObject.origImageHeight > imageObject.screenHeight) {
-        return true
+        return true;
     }
     else {
-        return false
+        return false;
     }
 }
 
 function IsImageWiderAndHigherThanScreen(imageObject) {
     if ((imageObject.origImageWidth > imageObject.screenWidth) && (imageObject.origImageHeight > imageObject.screenHeight)) 
-        return true
+        return true;
     else
-        return false
+        return false;
 }
 
-function IsImageMoreWide(imageObject) {
-    if (imageObject.origImageWidth > imageObject.origImageHeight)
-        return true
+function IsImageWiderThanScreen(imageObject) {
+    if (imageObject.origImageWidth > imageObject.screenWidth)
+        return true;
     else
-        return false
+        return false;
 }
 
 function FindMissingDimension(distance, highOrWide, ratio) {
