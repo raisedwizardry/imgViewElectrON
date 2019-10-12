@@ -1,6 +1,6 @@
 {
     "name": "imgViewElectrON",
-    "version": "0.9.0",
+    "version": "0.9.5",
     "description": "imgViewElectrON",
     "keywords": [
         "image",
@@ -56,6 +56,7 @@
         }
     },
     "dependencies": {
+        "electron-is": "^3.0.0",
         "image-size": "^0.7.4"
     },
     "devDependencies": {

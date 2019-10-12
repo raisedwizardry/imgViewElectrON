@@ -1,20 +1,45 @@
 const { app, BrowserWindow, dialog } = require('electron');
 const { ipcMain } = require('electron');
 const fs = require("fs");
+//const is = require('electron-is');
 let win;
 let Paths = [];
+let app_ready = false;
 
 ipcMain.on('ready-for-file', (event, data) => {
-    if (data === "none") { event.reply('file-opened', {filePath: 'src/img/sizing.png'}); }
-    else { event.reply('file-opened', {filePath: Paths[data]}); }
+    
+    if (data === "none.kill") {
+        event.reply('file-opened', {filePath: 'src/img/sizing.png'});
+    }
+    else if (Paths[data] === "opened.kill") { 
+        event.reply('close-window');
+    }
+    else { 
+        event.reply('file-opened', {filePath: Paths[data]}); 
+        Paths.splice(data ,1 ,"opened.kill");
+    }
+    if (Paths.every(element => element === "opened.kill")){
+        Paths.length = 0;
+    }
 });
 
-app.on('open-file', (event, path) => {
-    event.preventDefault();
-    Paths.push(path);
+app.releaseSingleInstanceLock()
+
+app.on('will-finish-launching', function() { 
+    app.on('open-file', function(event, path) {
+        event.preventDefault();
+        Paths.push(path);
+        //dialog.showErrorBox("Error", Paths.toString());
+        if (app_ready) {
+            setupFileArgs();
+        };
+    });    
 });
 
-app.on('ready', ()=> { setupFileArgs(); });
+app.on('ready', () => {
+    app_ready = true;
+    setupFileArgs();
+});
 
 app.on('window-all-closed', () => { app.quit(); });
 
@@ -25,11 +50,11 @@ function setupFileArgs() {
     }
     if (Paths.length === 0) {
         dialog.showErrorBox("Error", "No image to display");
-        createWindow("none");
+        createWindow("none.kill");
     }
     else if (Paths.length > 0) {
         for (let file in Paths) {
-            if (checkForValidArgs(Paths[file])) {
+            if (checkForValidFilePath(Paths[file])) {
                 checkForFileExistance(Paths[file], file)
             }
         }
@@ -48,28 +73,33 @@ function checkForFileExistance(imgFilePath, argNumber) {
     }
 }
 
-function validFilePath(imgFilePath) {
+function checkForAcceptedFileEndings(imgFilePath) {
     if ((/\.(gif|jpg|jpeg|jpe|jif|jfi|jfif|webp|bmp|svg|svgz|png)$/i).test(imgFilePath)) {
         return true;
     }
     else { 
-        dialog.showErrorBox("Error", "File format not supported");
+        dialog.showErrorBox("Error", `File format not supported for ${imgFilePath}`);
         return false;
     }
 }
 
-function notDebugArgFilePath(imgFilePath) {
-    if (!imgFilePath.startsWith("--inspect=5858")) { return true; }
+function checkForDebugFilePath(imgFilePath) {
+    if (!imgFilePath.startsWith("--inspect=")) { return true; }
     else { return false; }
 }
 
-function notMacPsnArgFilePath(imgFilePath) {
+function checkForMacPsnFilePath(imgFilePath) {
     if (!imgFilePath.startsWith("-psn")) { return true; }
     else { return false; }
 }
 
-function checkForValidArgs(imgFilePath) {
-    if (validFilePath(imgFilePath) && notDebugArgFilePath(imgFilePath) && notMacPsnArgFilePath(imgFilePath)) {
+function checkForAlreadyOpenFilePath(imgFilePath) {
+    if (imgFilePath !== "opened.kill") { return true; }
+    else { return false; }
+}
+
+function checkForValidFilePath(imgFilePath) {
+    if (checkForAlreadyOpenFilePath(imgFilePath) && checkForMacPsnFilePath(imgFilePath) && checkForDebugFilePath(imgFilePath) && checkForAcceptedFileEndings(imgFilePath)) {
         return true;
     }
     else { return false; }
@@ -96,5 +126,8 @@ function createWindow(fileNumber) {
 
     win.loadFile('index.html');
     //win.webContents.openDevTools({ mode: 'detach' });
-    win.on('closed', () => { win = null; });
+    win.on('closed', () => { 
+        win = null; 
+        //Paths.length = 0;
+    });
 }

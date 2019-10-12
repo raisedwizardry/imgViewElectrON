@@ -11,6 +11,7 @@ const sizeOf = require('image-size');
 ready (function () {
     AddRightClickClosing();
     let argNumber = process.argv[process.argv.length-1];
+    console.log(argNumber);
     ipcRenderer.send('ready-for-file', argNumber);
     ipcRenderer.on('file-opened', (event, data) => {
         console.log(data.filePath);
@@ -20,6 +21,7 @@ ready (function () {
         InitializeImage(initialImageDetail);
         AddHandle(theImageInfo.imageRatio, 'container');
     });
+    ipcRenderer.on('close-window', (event) => { window.close(); });
 });
 
 function CreateImageInfoObject(origWidth, origHeight){
