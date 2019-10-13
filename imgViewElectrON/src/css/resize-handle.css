@@ -1,0 +1,27 @@
+#right-handle {
+    position: absolute;
+    right: 0px;
+    top: 10%;
+    width: 10%;
+    height: 80%;
+    cursor: e-resize;
+    -webkit-user-select: none;
+}
+#bottom-handle {
+    position: absolute;
+    left: 10%;
+    bottom: 0px;
+    width: 80%;
+    height: 10%;
+    cursor: s-resize;
+    -webkit-user-select: none;
+}
+#bottomright-handle {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 10%;
+    height: 10%;
+    cursor: se-resize;
+    -webkit-user-select: none;
+}

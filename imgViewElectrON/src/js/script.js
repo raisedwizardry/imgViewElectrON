@@ -10,11 +10,11 @@ const sizeOf = require('image-size');
 
 ready (function () {
     AddRightClickClosing();
+    if (isDev()) { document.getElementById('body').style.backgroundImage = 'url(build/base.png' }
     let argNumber = process.argv[process.argv.length-1];
-    console.log(argNumber);
     ipcRenderer.send('ready-for-file', argNumber);
     ipcRenderer.on('file-opened', (event, data) => {
-        console.log(data.filePath);
+        //console.log(data.filePath);
         let dimensions = sizeOf(data.filePath);
         let theImageInfo = CreateImageInfoObject(dimensions.width, dimensions.height);
         let initialImageDetail = DetermineImgDetail(data.filePath, theImageInfo);
@@ -32,7 +32,7 @@ function CreateImageInfoObject(origWidth, origHeight){
         "screenWidth": window.screen.availWidth,
         "screenHeight": window.screen.availHeight
     }
-    console.log(imageInfo);
+    //console.log(imageInfo);
     return imageInfo;
 }
 
@@ -46,7 +46,7 @@ function DetermineImgDetail(imageSource, theImageInfo) {
         "widthPosition": RandomPosition(theImageInfo.screenWidth, resizedWidth), 
         "heightPosition": RandomPosition(theImageInfo.screenHeight, resizedHeight)
     }
-    console.log(imgDetail);
+    //console.log(imgDetail);
     return imgDetail;
 }
 
@@ -129,4 +129,8 @@ function AddRightClickClosing() {
             window.close();
         }
     })
+}
+
+function isDev() {
+    return process.mainModule.filename.indexOf('app.asar') === -1;
 }

@@ -1,7 +1,6 @@
 const { app, BrowserWindow, dialog } = require('electron');
 const { ipcMain } = require('electron');
 const fs = require("fs");
-//const is = require('electron-is');
 let win;
 let Paths = [];
 let app_ready = false;
@@ -9,7 +8,7 @@ let app_ready = false;
 ipcMain.on('ready-for-file', (event, data) => {
     
     if (data === "none.kill") {
-        event.reply('file-opened', {filePath: 'src/img/sizing.png'});
+        event.reply('file-opened', {filePath: determineErrorImage()});
     }
     else if (Paths[data] === "opened.kill") { 
         event.reply('close-window');
@@ -106,14 +105,25 @@ function checkForValidFilePath(imgFilePath) {
 }
 
 function determineArgStartFilePath() {
-    if (process.defaultApp) { sliceAmount = 2; }
+    if (isDev()) { sliceAmount = 2; }
     else { sliceAmount = 1; }
-    return sliceAmount
+    return sliceAmount;
+}
+
+function determineErrorImage() {
+    let errorImage;
+    if (isDev()) { errorImage = 'build/sizing.png'; }
+    else { errorImage = '../../build/sizing.png'; }
+    return errorImage;
+}
+
+function isDev() {
+    return process.mainModule.filename.indexOf('app.asar') === -1;
 }
 
 function createWindow(fileNumber) {
     win = new BrowserWindow({
-        icon: "src/img/imgViewElectrON.png",
+        icon: "build/icon.png",
         frame: false,
         resizable: false,
         fullscreen: false,
@@ -126,8 +136,5 @@ function createWindow(fileNumber) {
 
     win.loadFile('index.html');
     //win.webContents.openDevTools({ mode: 'detach' });
-    win.on('closed', () => { 
-        win = null; 
-        //Paths.length = 0;
-    });
+    win.on('closed', () => { win = null; });
 }
