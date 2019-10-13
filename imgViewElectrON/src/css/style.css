@@ -10,7 +10,7 @@ html{
 body{
     height: 100%;
     overflow: hidden;
-    background-image: url('../../../../build/base.png');
+    background-image: url('../../../../assets/base.png');
     background-repeat: repeat;
     background-position: left top; 
 }

@@ -10,7 +10,7 @@ const sizeOf = require('image-size');
 
 ready (function () {
     AddRightClickClosing();
-    if (isDev()) { document.getElementById('body').style.backgroundImage = 'url(build/base.png' }
+    if (isDev()) { document.getElementById('body').style.backgroundImage = 'url(assets/base.png' }
     let argNumber = process.argv[process.argv.length-1];
     ipcRenderer.send('ready-for-file', argNumber);
     ipcRenderer.on('file-opened', (event, data) => {
@@ -101,16 +101,16 @@ function IsImageWiderThanScreen(imageObject) {
 
 function FindMissingDimension(distance, highOrWide, ratio) {
     if (highOrWide === 'wide') {
-        return distance / ratio
+        return distance / ratio;
     }
     else if (highOrWide === 'high') {
-        return distance * ratio
+        return distance * ratio;
     }
 }
 
 function RandomPosition(whole, offset) {
-    let max = whole - offset
-    let min = 1
+    let max = whole - offset;
+    let min = 1;
     return Math.floor(Math.random()*(max-min+1)+min);
 }
 

@@ -18,7 +18,7 @@ imgViewElectrON is meant to be your default operating system image file viewer. 
 
 The below diagram shows the sections of the image you can use to change the size and location of the image.
 
-![](https://raw.githubusercontent.com/raisedwizardry/imgViewElectrON/master/imgViewElectrON/src/img/sizing.png?raw=true)
+![](https://raw.githubusercontent.com/raisedwizardry/imgViewElectrON/master/imgViewElectrON/assets/sizing.png?raw=true)
 
 #### Moving Window
 moving the image window is done by clicking and dragging the top and left sides of the image.

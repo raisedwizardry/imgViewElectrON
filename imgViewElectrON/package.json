@@ -1,6 +1,6 @@
 {
     "name": "imgViewElectrON",
-    "version": "0.9.6",
+    "version": "0.9.7",
     "description": "imgViewElectrON",
     "keywords": [
         "image",
@@ -23,8 +23,8 @@
     "build": {
         "appId": "com.imgViewElectrON",
         "extraFiles": [
-            "build/sizing.png",
-            "build/base.png"
+            "assets/sizing.png",
+            "assets/base.png"
         ],
         "linux": {
             "target": [
@@ -60,7 +60,8 @@
         }
     },
     "dependencies": {
-        "image-size": "^0.7.4"
+        "image-size": "^0.8.3",
+        "path": "^0.12.7"
     },
     "devDependencies": {
         "electron": "^6.0.7",

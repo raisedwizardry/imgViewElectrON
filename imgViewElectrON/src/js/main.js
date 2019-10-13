@@ -1,16 +1,14 @@
 const { app, BrowserWindow, dialog } = require('electron');
 const { ipcMain } = require('electron');
 const fs = require("fs");
+const pa = require('path');
 let win;
 let Paths = [];
 let app_ready = false;
 
 ipcMain.on('ready-for-file', (event, data) => {
     
-    if (data === "none.kill") {
-        event.reply('file-opened', {filePath: determineErrorImage()});
-    }
-    else if (Paths[data] === "opened.kill") { 
+    if (Paths[data] === "opened.kill") { 
         event.reply('close-window');
     }
     else { 
@@ -49,12 +47,14 @@ function setupFileArgs() {
     }
     if (Paths.length === 0) {
         dialog.showErrorBox("Error", "No image to display");
-        createWindow("none.kill");
+        let errorPath = determineErrorImage();
+        Paths.push(errorPath);
+        checkForFileExistance(errorPath, "0");
     }
     else if (Paths.length > 0) {
         for (let file in Paths) {
             if (checkForValidFilePath(Paths[file])) {
-                checkForFileExistance(Paths[file], file)
+                checkForFileExistance(Paths[file], file);
             }
         }
     }
@@ -112,8 +112,9 @@ function determineArgStartFilePath() {
 
 function determineErrorImage() {
     let errorImage;
-    if (isDev()) { errorImage = 'build/sizing.png'; }
-    else { errorImage = '../../build/sizing.png'; }
+    if (isDev()) { errorImage = 'assets/sizing.png'; }
+    else { errorImage = '../../assets/sizing.png'; }
+    errorImage = pa.resolve(app.getAppPath() ,errorImage);
     return errorImage;
 }
 
