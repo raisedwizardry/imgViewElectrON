@@ -26,6 +26,24 @@
             "assets/sizing.png",
             "assets/base.png"
         ],
+        "win": {
+            "target": [
+                {
+                    "target": "appx",
+                    "arch": [
+                        "x64",
+                        "ia32"
+                    ]
+                },
+                {
+                    "target": "nsis",
+                    "arch": [
+                        "x64",
+                        "ia32"
+                    ]
+                }
+            ]
+        },
         "linux": {
             "target": [
                 "AppImage",
@@ -33,7 +51,7 @@
             ]
         },
         "mac": {
-            "category": "public.app-category.business",
+            "category": "public.app-category.productivity",
             "type": "distribution",
             "fileAssociations": [
                 {
