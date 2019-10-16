@@ -1,55 +1,43 @@
 const { app, BrowserWindow, dialog } = require('electron');
-const { ipcMain } = require('electron');
 const fs = require("fs");
 const pa = require('path');
 let win;
 let Paths = [];
 let app_ready = false;
 
-ipcMain.on('ready-for-file', (event, data) => {
-    
-    if (Paths[data] === "opened.kill") { 
-        event.reply('close-window');
-    }
-    else { 
-        event.reply('file-opened', {filePath: Paths[data]}); 
-        Paths.splice(data ,1 ,"opened.kill");
-    }
-    if (Paths.every(element => element === "opened.kill")){
-        Paths.length = 0;
-    }
-});
-
 app.releaseSingleInstanceLock()
 
 app.on('will-finish-launching', function() { 
     app.on('open-file', function(event, path) {
         event.preventDefault();
-        Paths.push(path);
-        //dialog.showErrorBox("Error", Paths.toString());
+        //dialog.showErrorBox("Error", path);
+        if (!app_ready) {
+            Paths.push(path);
+        };
         if (app_ready) {
+            Paths.length = 0;
+            Paths.push(path);
             setupFileArgs();
         };
     });    
 });
 
 app.on('ready', () => {
+    //dialog.showErrorBox("Error", "ready");
     app_ready = true;
     setupFileArgs();
 });
 
 app.on('window-all-closed', () => { app.quit(); });
 
-function setupFileArgs() {
+function setupFileArgs(path) {
     if (Paths.length === 0) {
-        let sliceAmount = determineArgStartFilePath();
-        Paths = process.argv.slice(sliceAmount);
+        Paths = process.argv.slice(determineArgStartFilePath());
+        //dialog.showErrorBox("Error", Paths.toString());
     }
     if (Paths.length === 0) {
         dialog.showErrorBox("Error", "No image to display");
-        let errorPath = determineErrorImage();
-        Paths.push(errorPath);
-        checkForFileExistance(errorPath, "0");
+        checkForFileExistance(determineErrorImage());
     }
     else if (Paths.length > 0) {
         for (let file in Paths) {
@@ -63,9 +51,9 @@ function setupFileArgs() {
     }
 }
 
-function checkForFileExistance(imgFilePath, argNumber) {
+function checkForFileExistance(imgFilePath) {
     if (fs.existsSync(imgFilePath)) {
-        createWindow(argNumber);
+        createWindow(imgFilePath);
     }
     else {
         dialog.showErrorBox("Error", `Image Path Given: ${imgFilePath} does not exist in path given`);
@@ -92,13 +80,8 @@ function checkForMacPsnFilePath(imgFilePath) {
     else { return false; }
 }
 
-function checkForAlreadyOpenFilePath(imgFilePath) {
-    if (imgFilePath !== "opened.kill") { return true; }
-    else { return false; }
-}
-
 function checkForValidFilePath(imgFilePath) {
-    if (checkForAlreadyOpenFilePath(imgFilePath) && checkForMacPsnFilePath(imgFilePath) && checkForDebugFilePath(imgFilePath) && checkForAcceptedFileEndings(imgFilePath)) {
+    if (checkForMacPsnFilePath(imgFilePath) && checkForDebugFilePath(imgFilePath) && checkForAcceptedFileEndings(imgFilePath)) {
         return true;
     }
     else { return false; }
@@ -122,7 +105,7 @@ function isDev() {
     return process.mainModule.filename.indexOf('app.asar') === -1;
 }
 
-function createWindow(fileNumber) {
+function createWindow(imgFilePath) {
     win = new BrowserWindow({
         icon: "build/icon.png",
         frame: false,
@@ -131,7 +114,7 @@ function createWindow(fileNumber) {
         transparent: true,
         webPreferences: {
             nodeIntegration: true,
-            additionalArguments: [ fileNumber ]
+            additionalArguments: [ imgFilePath ]
         }
     });
 
