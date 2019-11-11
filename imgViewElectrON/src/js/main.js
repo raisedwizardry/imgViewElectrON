@@ -71,7 +71,7 @@ function checkForAcceptedFileEndings(imgFilePath) {
 }
 
 function checkForDebugFilePath(imgFilePath) {
-    if (!imgFilePath.startsWith("--inspect=")) { return true; }
+    if (!imgFilePath.startsWith("--")) { return true; }
     else { return false; }
 }
 

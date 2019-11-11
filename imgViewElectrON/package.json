@@ -22,6 +22,9 @@
     },
     "build": {
         "appId": "com.imgViewElectrON",
+        "files": [
+            "!tests.e2e/**"
+        ],
         "extraFiles": [
             "assets/sizing.png",
             "assets/base.png"
@@ -31,8 +34,7 @@
                 {
                     "target": "appx",
                     "arch": [
-                        "x64",
-                        "ia32"
+                        "x64"
                     ]
                 },
                 {
@@ -52,30 +54,30 @@
         },
         "mac": {
             "category": "public.app-category.productivity",
-            "type": "distribution",
-            "fileAssociations": [
-                {
-                    "ext": [
-                        "gif",
-                        "jpe",
-                        "jpg",
-                        "jpeg",
-                        "jif",
-                        "jfi",
-                        "jfif",
-                        "webp",
-                        "bmp",
-                        "svg",
-                        "svgz",
-                        "png",
-                        "PNG",
-                        "tiff"
-                    ],
-                    "description": "Image files",
-                    "role": "Viewer"
-                }
-            ]
-        }
+            "type": "distribution"
+        },
+        "fileAssociations": [
+            {
+                "ext": [
+                    "gif",
+                    "jpe",
+                    "jpg",
+                    "jpeg",
+                    "jif",
+                    "jfi",
+                    "jfif",
+                    "webp",
+                    "bmp",
+                    "svg",
+                    "svgz",
+                    "png",
+                    "PNG",
+                    "tiff"
+                ],
+                "description": "Image files",
+                "role": "Viewer"
+            }
+        ]
     },
     "dependencies": {
         "image-size": "^0.8.3",
