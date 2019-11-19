@@ -8,7 +8,7 @@ function ready (fn) {
 
 ready (function () {
     if (isDev()) { document.getElementById('body').style.backgroundImage = 'url(assets/base.png' }
-    const sizeOf = require('image-size');    
+    const sizeOf = require('image-size');
     AddRightClickClosing();
     let imagePath = process.argv[process.argv.length-1];
     //console.log(imagePath);
