@@ -7,8 +7,8 @@ let app_ready = false;
 
 app.releaseSingleInstanceLock()
 
-app.on('will-finish-launching', function() { 
-    app.on('open-file', function(event, path) {
+app.on('will-finish-launching', function () {
+    app.on('open-file', function (event, path) {
         event.preventDefault();
         //dialog.showErrorBox("Error", path);
         if (!app_ready) {
@@ -19,7 +19,7 @@ app.on('will-finish-launching', function() {
             Paths.push(path);
             setupFileArgs();
         };
-    });    
+    });
 });
 
 app.on('ready', () => {
@@ -36,7 +36,6 @@ function setupFileArgs(path) {
         //dialog.showErrorBox("Error", Paths.toString());
     }
     if (Paths.length === 0) {
-        dialog.showErrorBox("Error", "No image to display");
         checkForFileExistance(determineErrorImage());
     }
     else if (Paths.length > 0) {
@@ -64,7 +63,7 @@ function checkForAcceptedFileEndings(imgFilePath) {
     if ((/\.(gif|jpg|jpeg|jpe|jif|jfi|jfif|webp|bmp|svg|svgz|png)$/i).test(imgFilePath)) {
         return true;
     }
-    else { 
+    else {
         dialog.showErrorBox("Error", `File format not supported for ${imgFilePath}`);
         return false;
     }
@@ -95,9 +94,9 @@ function determineArgStartFilePath() {
 
 function determineErrorImage() {
     let errorImage;
-    if (isDev()) { errorImage = 'assets/sizing.png'; }
-    else { errorImage = '../../assets/sizing.png'; }
-    errorImage = pa.resolve(app.getAppPath() ,errorImage);
+    if (isDev()) { errorImage = 'assets/error.png'; }
+    else { errorImage = '../../assets/error.png'; }
+    errorImage = pa.resolve(app.getAppPath(), errorImage);
     return errorImage;
 }
 
@@ -114,7 +113,7 @@ function createWindow(imgFilePath) {
         transparent: true,
         webPreferences: {
             nodeIntegration: true,
-            additionalArguments: [ imgFilePath ]
+            additionalArguments: [imgFilePath]
         }
     });
 

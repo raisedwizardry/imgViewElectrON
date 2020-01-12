@@ -1,7 +1,7 @@
 {
-    "name": "imgViewElectrON",
-    "version": "0.9.8",
-    "description": "imgViewElectrON",
+    "name": "imgViewOn",
+    "version": "0.9.9",
+    "description": "imgViewOn",
     "keywords": [
         "image",
         "picture"
@@ -21,12 +21,12 @@
         "dist": "electron-builder"
     },
     "build": {
-        "appId": "com.imgViewElectrON",
+        "appId": "com.imgViewOn",
         "files": [
             "!tests.e2e/**"
         ],
         "extraFiles": [
-            "assets/sizing.png",
+            "assets/error.png",
             "assets/base.png"
         ],
         "win": {
@@ -34,7 +34,8 @@
                 {
                     "target": "appx",
                     "arch": [
-                        "x64"
+                        "x64",
+                        "ia32"
                     ]
                 },
                 {
@@ -71,7 +72,6 @@
                     "svg",
                     "svgz",
                     "png",
-                    "PNG",
                     "tiff"
                 ],
                 "description": "Image files",
@@ -84,8 +84,7 @@
         "path": "^0.12.7"
     },
     "devDependencies": {
-        "electron": "^6.0.7",
-        "electron-builder": "^21.2.0",
-        "spectron": "^8.0.0"
+        "electron": "6.0.7",
+        "electron-builder": "21.2.0"
     }
 }
