@@ -21,7 +21,7 @@
         "dist": "electron-builder"
     },
     "build": {
-        "appId": "com.imgViewOn",
+        "appId": "raisedwizardry.imgViewOn",
         "files": [
             "!tests.e2e/**"
         ],
@@ -29,7 +29,15 @@
             "assets/error.png",
             "assets/base.png"
         ],
+        "appx": {
+            "identityName": "raisedwizardry.imgViewOn",
+            "publisher": "CN=65A67BB2-6A6A-4621-8AF2-EBCBF41F75DC",
+            "publisherDisplayName": "raisedwizardry",
+            "displayName": "imgViewOn",
+            "applicationId": "imgViewOn"
+        },
         "win": {
+            
             "target": [
                 {
                     "target": "appx",
@@ -85,6 +93,6 @@
     },
     "devDependencies": {
         "electron": "6.0.7",
-        "electron-builder": "21.2.0"
+        "electron-builder": "^22.2.0"
     }
 }

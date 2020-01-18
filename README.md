@@ -54,6 +54,6 @@ Supported image file extensions are:
 - .tiff
 - .webp
 
-#### Current Limitations
-- Only for Windows and Mac. I will create a linux version when I create a dev environment on a linux machine
-- Mac version can only open the first group of files of one or more files you open. once you close them you can open more. I will address this in the future.
+#### Privacy Policy
+
+This app is covered by a this [Privacy Policy](https://www.privacypolicygenerator.info/live.php?token=n0EhAZuX8wgSiNSu4nzTckKyEKrxNb8O)
