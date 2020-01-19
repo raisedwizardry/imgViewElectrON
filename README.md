@@ -3,6 +3,8 @@ This application started as a nw.js application named imgViewON and was converte
 
 imgViewOn is a simple and easy to use image viewer. A program to view images without distractions. Some image editors take upwards of 20 seconds to open. In addition to taking a long time to open certain image editors open in a large window with a ton of editing options. imgViewOn opens only for viewing, in its own window for each image, and without border or editing options.
 
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X8X017RCE) If you feel this application has helped you in any way and are feeling generous please feel free to support me via Ko-Fi.
+
 ## What it Does
 The main purpose of imgViewOn is to open the major image file types (jpeg, png, gif, bmp and several others.) It will quickly display the image file without a border or top menu bar. It uses the bottom and right sides of the image to resize the image, the top and left sides to move the image and the center to close the image.
 
