@@ -21,7 +21,8 @@
         "dist": "electron-builder"
     },
     "build": {
-        "appId": "raisedwizardry.imgViewOn",
+        "appId": "com.raisedwizardry.imgViewOn",
+        "afterSign": "build/notarize.js",
         "files": [
             "!tests.e2e/**"
         ],
@@ -29,15 +30,7 @@
             "assets/error.png",
             "assets/base.png"
         ],
-        "appx": {
-            "identityName": "raisedwizardry.imgViewOn",
-            "publisher": "CN=65A67BB2-6A6A-4621-8AF2-EBCBF41F75DC",
-            "publisherDisplayName": "raisedwizardry",
-            "displayName": "imgViewOn",
-            "applicationId": "imgViewOn"
-        },
         "win": {
-            
             "target": [
                 {
                     "target": "appx",
@@ -55,6 +48,13 @@
                 }
             ]
         },
+        "appx": {
+            "identityName": "raisedwizardry.imgViewOn",
+            "publisher": "CN=65A67BB2-6A6A-4621-8AF2-EBCBF41F75DC",
+            "publisherDisplayName": "raisedwizardry",
+            "displayName": "imgViewOn",
+            "applicationId": "imgViewOn"
+        },
         "linux": {
             "target": [
                 "AppImage",
@@ -62,8 +62,21 @@
             ]
         },
         "mac": {
+            "target": "dmg",
             "category": "public.app-category.productivity",
-            "type": "distribution"
+            "hardenedRuntime": true,
+            "gatekeeperAssess": false,
+            "type": "distribution",
+            "entitlements": "build/entitlements.mac.plist",
+            "entitlementsInherit": "build/entitlements.mac.inherit.plist",
+            "provisioningProfile": "build/embedded.provisionprofile"
+        },
+        "mas": {
+            "entitlements": "build/entitlements.mas.plist",
+            "entitlementsInherit": "build/entitlements.mas.inherit.plist"
+        },
+        "dmg": {
+            "sign": false
         },
         "fileAssociations": [
             {
@@ -92,7 +105,9 @@
         "path": "^0.12.7"
     },
     "devDependencies": {
-        "electron": "6.0.7",
-        "electron-builder": "^22.2.0"
+        "dotenv": "^8.2.0",
+        "electron": "6.1.7",
+        "electron-builder": "^22.2.0",
+        "electron-notarize": "^0.2.1"
     }
 }
