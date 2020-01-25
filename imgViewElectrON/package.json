@@ -6,7 +6,10 @@
         "image",
         "picture"
     ],
-    "author": "raisedwizardry",
+    "author": {
+        "name": "raisedwizardry",
+        "email": "lifebloodasmr@gmail.com"
+    },
     "license": "MIT",
     "repository": "http://www.github.com/raisedwizardry/imgviewelectron",
     "main": "src/js/main.js",
@@ -56,9 +59,12 @@
             "applicationId": "imgViewOn"
         },
         "linux": {
+            "icon": "",
             "target": [
                 "AppImage",
-                "deb"
+                "deb",
+                "rpm",
+                "snap"
             ]
         },
         "mac": {
@@ -80,22 +86,68 @@
         },
         "fileAssociations": [
             {
-                "ext": [
-                    "gif",
-                    "jpe",
-                    "jpg",
-                    "jpeg",
-                    "jif",
-                    "jfi",
-                    "jfif",
-                    "webp",
-                    "bmp",
-                    "svg",
-                    "svgz",
-                    "png",
-                    "tiff"
-                ],
-                "description": "Image files",
+                "ext": "png",
+                "description": "png files",
+                "role": "Viewer"
+            },
+            {
+                "ext": "gif",
+                "description": "gif files",
+                "role": "Viewer"
+            },
+            {
+                "ext": "jpg",
+                "description": "jpeg files",
+                "role": "Viewer"
+            },
+            {
+                "ext": "jpeg",
+                "description": "jpe files",
+                "role": "Viewer"
+            },
+            {
+                "ext": "jpe",
+                "description": "jpeg files",
+                "role": "Viewer"
+            },
+            {
+                "ext": "jif",
+                "description": "jif files",
+                "role": "Viewer"
+            },
+            {
+                "ext": "jfi",
+                "description": "jfi files",
+                "role": "Viewer"
+            },
+            {
+                "ext": "jfif",
+                "description": "jfif files",
+                "role": "Viewer"
+            },
+            {
+                "ext": "webp",
+                "description": "webp files",
+                "role": "Viewer"
+            },
+            {
+                "ext": "bmp",
+                "description": "bitmap files",
+                "role": "Viewer"
+            },
+            {
+                "ext": "svg",
+                "description": "svg files",
+                "role": "Viewer"
+            },
+            {
+                "ext": "svgz",
+                "description": "svgz files",
+                "role": "Viewer"
+            },
+            {
+                "ext": "tiff",
+                "description": "tiff files",
                 "role": "Viewer"
             }
         ]
