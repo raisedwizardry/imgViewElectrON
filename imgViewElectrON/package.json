@@ -1,7 +1,7 @@
 {
     "name": "imgViewOn",
-    "version": "0.9.9",
-    "description": "imgViewOn",
+    "version": "1.0.0",
+    "description": "view images without distractions",
     "keywords": [
         "image",
         "picture"
@@ -25,7 +25,7 @@
     },
     "build": {
         "appId": "com.raisedwizardry.imgViewOn",
-        "afterSign": "build/notarize.js",
+        "afterSign": "build/mac/notarize.js",
         "files": [
             "!tests.e2e/**"
         ],
@@ -59,12 +59,14 @@
             "applicationId": "imgViewOn"
         },
         "linux": {
-            "icon": "",
+            "icon": "build/linux/512x512.png",
+            "category": "Graphics",
             "target": [
                 "AppImage",
                 "deb",
                 "rpm",
-                "snap"
+                "snap",
+                "pacman"
             ]
         },
         "mac": {
@@ -73,13 +75,13 @@
             "hardenedRuntime": true,
             "gatekeeperAssess": false,
             "type": "distribution",
-            "entitlements": "build/entitlements.mac.plist",
-            "entitlementsInherit": "build/entitlements.mac.inherit.plist",
-            "provisioningProfile": "build/embedded.provisionprofile"
+            "entitlements": "build/mac/entitlements.mac.plist",
+            "entitlementsInherit": "build/mac/entitlements.mac.inherit.plist",
+            "provisioningProfile": "build/mac/embedded.provisionprofile"
         },
         "mas": {
-            "entitlements": "build/entitlements.mas.plist",
-            "entitlementsInherit": "build/entitlements.mas.inherit.plist"
+            "entitlements": "build/mas/entitlements.mas.plist",
+            "entitlementsInherit": "build/mas/entitlements.mas.inherit.plist"
         },
         "dmg": {
             "sign": false
