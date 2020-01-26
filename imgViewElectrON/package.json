@@ -34,6 +34,7 @@
             "assets/base.png"
         ],
         "win": {
+            "icon": "build/1024x1024.png",
             "target": [
                 {
                     "target": "appx",
@@ -59,7 +60,7 @@
             "applicationId": "imgViewOn"
         },
         "linux": {
-            "icon": "build/linux/512x512.png",
+            "icon": "build/1024x1024.png",
             "category": "Graphics",
             "target": [
                 "AppImage",
@@ -70,19 +71,20 @@
             ]
         },
         "mac": {
-            "target": "mas",
+            "target": "dmg",
             "category": "public.app-category.productivity",
+            "icon": "build/1024x1024.png",
             "hardenedRuntime": true,
             "gatekeeperAssess": false,
             "type": "distribution",
             "entitlements": "build/mac/entitlements.mac.plist",
             "entitlementsInherit": "build/mac/entitlements.mac.inherit.plist",
-            "provisioningProfile": "build/mac/embedded.provisionprofile"
+            "provisioningProfile": "build/mac/embedded.mac.provisionprofile"
         },
         "mas": {
             "entitlements": "build/mas/entitlements.mas.plist",
             "entitlementsInherit": "build/mas/entitlements.mas.inherit.plist",
-            "provisioningProfile": "build/mas/mas.embedded.provisionprofile"
+            "provisioningProfile": "build/mas/embedded.mas.provisionprofile"
         },
         "dmg": {
             "sign": false
