@@ -70,7 +70,7 @@
             ]
         },
         "mac": {
-            "target": "dmg",
+            "target": "mas",
             "category": "public.app-category.productivity",
             "hardenedRuntime": true,
             "gatekeeperAssess": false,
@@ -81,7 +81,8 @@
         },
         "mas": {
             "entitlements": "build/mas/entitlements.mas.plist",
-            "entitlementsInherit": "build/mas/entitlements.mas.inherit.plist"
+            "entitlementsInherit": "build/mas/entitlements.mas.inherit.plist",
+            "provisioningProfile": "build/mas/mas.embedded.provisionprofile"
         },
         "dmg": {
             "sign": false
