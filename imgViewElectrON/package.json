@@ -31,7 +31,8 @@
         ],
         "extraFiles": [
             "assets/error.png",
-            "assets/base.png"
+            "assets/base.png",
+            "assets/icon.png"
         ],
         "win": {
             "icon": "build/1024x1024.png",
@@ -60,14 +61,13 @@
             "applicationId": "imgViewOn"
         },
         "linux": {
-            "icon": "build/1024x1024.png",
+            "icon": "build",
             "category": "Graphics",
             "target": [
                 "AppImage",
                 "deb",
                 "rpm",
-                "snap",
-                "pacman"
+                "snap"
             ]
         },
         "mac": {

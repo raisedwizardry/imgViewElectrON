@@ -100,13 +100,21 @@ function determineErrorImage() {
     return errorImage;
 }
 
+function determineIconImage() {
+    let iconImage;
+    if (isDev()) { iconImage = 'assets/icon.png'; }
+    else { iconImage = '../../assets/icon.png'; }
+    iconImage = pa.resolve(app.getAppPath(), iconImage);
+    return iconImage;
+}
+
 function isDev() {
     return process.mainModule.filename.indexOf('app.asar') === -1;
 }
 
 function createWindow(imgFilePath) {
     win = new BrowserWindow({
-        icon: "build/icon.png",
+        icon: determineIconImage(),
         frame: false,
         resizable: false,
         fullscreen: false,
