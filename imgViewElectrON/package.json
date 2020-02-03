@@ -1,6 +1,6 @@
 {
     "name": "imgViewOn",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "description": "view images without distractions",
     "keywords": [
         "image",
@@ -71,7 +71,7 @@
             ]
         },
         "mac": {
-            "target": "dmg",
+            "target": "mas",
             "category": "public.app-category.productivity",
             "icon": "build/1024x1024.png",
             "hardenedRuntime": true,
@@ -84,7 +84,8 @@
         "mas": {
             "entitlements": "build/mas/entitlements.mas.plist",
             "entitlementsInherit": "build/mas/entitlements.mas.inherit.plist",
-            "provisioningProfile": "build/mas/embedded.mas.provisionprofile"
+            "provisioningProfile": "build/mas/embedded.mas.provisionprofile",
+            "asarUnpack": []
         },
         "dmg": {
             "sign": false
@@ -164,7 +165,7 @@
     "devDependencies": {
         "dotenv": "^8.2.0",
         "electron": "6.1.7",
-        "electron-builder": "^22.2.0",
+        "electron-builder": "^22.3.2",
         "electron-notarize": "^0.2.1"
     }
 }
