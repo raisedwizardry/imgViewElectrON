@@ -1,14 +1,16 @@
 # imgViewElectrON
 This application started as a nw.js application named imgViewON and was converted to an Electron application named imgViewElectrON. I now refer to the application as imgViewOn and may change the repo name in the future. 
 
-imgViewOn is a simple and easy to use image viewer. A program to view images without distractions. Some image editors take upwards of 20 seconds to open. In addition to taking a long time to open certain image editors open in a large window with a ton of editing options. imgViewOn opens only for viewing, in its own window for each image, and without border or editing options.
+imgViewOn is a simple and easy to use image viewer. A program to view images without distractions. Some image editors take upwards of 20 seconds to open. In addition to taking a long time to open, certain image editors open in a large window with a ton of editing options. imgViewOn opens only for viewing, in its own window for each image without border or editing options.
 
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X8X017RCE)
 
 If you feel this application has helped you in any way and are feeling generous please feel free to support me via Ko-Fi.
 
 ## What it Does
-The main purpose of imgViewOn is to open the major image file types (jpeg, png, gif, bmp and several others.) It will quickly display the image file without a border or top menu bar. It uses the bottom and right sides of the image to resize the image, the top and left sides to move the image and the center to close the image.
+imgViewOn is meant to be your default operating system image file viewer and will open the major image file types (jpeg, png, gif, bmp and several others.) It will quickly display the image file without a border or top menu bar. 
+
+After installation set your image files assocations to open with imgViewOn. When an image is opened using imgViewOn you can edit the window/image size with the bottom, right, and bottom-right sides of the window. The window/image will scale depending on the original aspect ratio. Large images will scale down depending on the screen size you are viewing on for better visibility.
 
 ## Main Features
 - Displays a selected image without a border or top menu bar
@@ -19,9 +21,7 @@ The main purpose of imgViewOn is to open the major image file types (jpeg, png, 
 ## Downloads
 Navigate to the [release section](https://github.com/raisedwizardry/imgViewElectrON/releases) to download the latest installer.
 
-## Usage
-imgViewOn is meant to be your default operating system image file viewer. After installation set your image files assocations to open with imgViewOn. When an image is opened using imgViewOn you can edit the window/image size with the bottom, right, and bottom-right sides of the window. The window/image will scale depending on the original aspect ratio. Large images will scale down depending on the screen size you are viewing on for better visibility.
-
+## Controls
 The below diagram shows the sections of the image you can use to change the size and location of the image.
 
 ![](https://raw.githubusercontent.com/raisedwizardry/imgViewElectrON/master/imgViewElectrON/assets/sizing.png?raw=true)
@@ -41,7 +41,7 @@ clicking and dragging the bottom right corner will resize diagonally
 #### Closing Window
 Closing is done by right clicking anywhere in the center of the window
 
-#### Supported File Types
+## Supported File Types
 Supported image file extensions are:
 
 - .bmp
@@ -58,6 +58,5 @@ Supported image file extensions are:
 - .tiff
 - .webp
 
-#### Privacy Policy
-
+## Privacy Policy
 This app is covered by a this [Privacy Policy](https://www.privacypolicygenerator.info/live.php?token=n0EhAZuX8wgSiNSu4nzTckKyEKrxNb8O)
